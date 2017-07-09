@@ -29,11 +29,14 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	c.Consume(
+	err = c.Consume(
 		func(m message.Message) {
 			logger.Printf("Consumed: %s", m)
 		},
 	)
+	if err != nil {
+		logger.Fatal(err)
+	}
 
 	go func() {
 		data := []byte("hello")
