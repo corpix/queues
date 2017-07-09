@@ -13,8 +13,6 @@ import (
 
 func main() {
 	logger := log.New(logrus.New())
-	// FIXME: market-fetcher has more advanced logger component,
-	// probably you should merge it into corpix/logger
 
 	c, err := queues.NewFromConfig(
 		logger,
@@ -31,13 +29,17 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	c.AddHandler(func(m message.Message) {
-		logger.Print(m)
-	})
+	c.Consume(
+		func(m message.Message) {
+			logger.Printf("Consumed: %s", m)
+		},
+	)
 
 	go func() {
+		data := []byte("hello")
 		for {
-			c.Produce([]byte("hello"))
+			logger.Printf("Producing: %s", data)
+			c.Produce(data)
 			time.Sleep(5 * time.Second)
 		}
 	}()
