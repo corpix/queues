@@ -8,13 +8,13 @@ import (
 
 	"github.com/corpix/queues/handler"
 	"github.com/corpix/queues/message"
-	// "github.com/corpix/queues/queue/kafka"
+	"github.com/corpix/queues/queue/kafka"
 	"github.com/corpix/queues/queue/nsq"
 )
 
 const (
-	// KafkaQueueType = "kafka"
-	NsqQueueType = "nsq"
+	KafkaQueueType = "kafka"
+	NsqQueueType   = "nsq"
 )
 
 type Config struct {
@@ -30,18 +30,22 @@ type Queue interface {
 }
 
 func NewFromConfig(l logger.Logger, c Config) (Queue, error) {
+	var (
+		t = strings.ToLower(c.Type)
+	)
+
 	for _, v := range structs.New(c).Fields() {
-		if !strings.EqualFold(v.Name(), c.Type) {
+		if strings.ToLower(v.Name()) != t {
 			continue
 		}
 
-		switch {
-		// case strings.EqualFold(c.Type, KafkaQueueType):
-		// 	return kafka.NewFromConfig(
-		// 		l,
-		// 		v.Value().(kafka.Config),
-		// 	)
-		case strings.EqualFold(c.Type, NsqQueueType):
+		switch t {
+		case KafkaQueueType:
+			return kafka.NewFromConfig(
+				l,
+				v.Value().(kafka.Config),
+			)
+		case NsqQueueType:
 			return nsq.NewFromConfig(
 				l,
 				v.Value().(nsq.Config),
