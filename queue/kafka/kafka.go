@@ -4,26 +4,24 @@ import (
 	"github.com/Shopify/sarama"
 
 	"github.com/corpix/logger"
+
+	"github.com/corpix/queues/handler"
+	"github.com/corpix/queues/message"
 )
 
-type Config struct {
-	Addrs  []string
-	Topic  string
-	Sarama *sarama.Config
-}
-
 type Kafka struct {
-	logger   logger.Logger
-	config   Config
-	producer sarama.SyncProducer
-	consumer sarama.Consumer
+	logger       logger.Logger
+	config       Config
+	producer     sarama.SyncProducer
+	consumer     sarama.Consumer
+	consumerDone chan bool
 }
 
-func (e *Kafka) Produce(payload []byte) error {
+func (e *Kafka) Produce(m message.Message) error {
 	_, _, err := e.producer.SendMessage(
 		&sarama.ProducerMessage{
 			Topic: e.config.Topic,
-			Value: sarama.StringEncoder(payload),
+			Value: sarama.StringEncoder(m),
 		},
 	)
 	if err != nil {
@@ -33,17 +31,42 @@ func (e *Kafka) Produce(payload []byte) error {
 	return nil
 }
 
-func (e *Kafka) Consume() ([]byte, error) {
-	pc, err := e.consumer.ConsumePartition(
+func (e *Kafka) Consume(h handler.Handler) error {
+	var (
+		c   sarama.PartitionConsumer
+		err error
+	)
+
+	c, err = e.consumer.ConsumePartition(
 		e.config.Topic,
 		0,
 		sarama.OffsetOldest,
 	)
-	select {
-	case err := <-pc.Errors():
-	case msg := <-consumer.Messages():
+	if err != nil {
+		return err
 	}
-	return nil, nil
+
+	go e.consumeLoop(c, h)
+
+	return nil
+}
+
+func (e *Kafka) consumeLoop(c sarama.PartitionConsumer, h handler.Handler) {
+	var (
+		msg *sarama.ConsumerMessage
+		err error
+	)
+
+	for {
+		select {
+		case err = <-c.Errors():
+			e.logger.Error(err)
+		case msg = <-c.Messages():
+			h(message.Message(msg.Value))
+		case <-e.consumerDone:
+			return
+		}
+	}
 }
 
 func (e *Kafka) Close() error {
@@ -55,7 +78,16 @@ func (e *Kafka) Close() error {
 	if err != nil {
 		return err
 	}
-	return e.consumer.Close()
+
+	err = e.consumer.Close()
+	if err != nil {
+		return err
+	}
+
+	e.consumerDone <- true
+	close(e.consumerDone)
+
+	return nil
 }
 
 func NewFromConfig(l logger.Logger, c Config) (*Kafka, error) {
@@ -94,5 +126,6 @@ func NewFromConfig(l logger.Logger, c Config) (*Kafka, error) {
 		c,
 		producer,
 		consumer,
+		make(chan bool),
 	}, nil
 }

@@ -35,3 +35,27 @@ INFO[0005] Consumed: hello
 INFO[0010] Producing: hello
 INFO[0010] Consumed: hello
 ```
+
+## Kafka example
+
+Prepare Kafka:
+
+> All commands should be run in separate terminal windows.
+
+``` console
+$ sudo rkt run --interactive coreos.com/etcd:v3.1.8 --net=host -- --log-output=stderr --debug
+$ sudo rkt run --interactive corpix.github.io/zetcd:0.0.2 --net=host -- --zkaddr=127.0.0.1:2181 --endpoints=127.0.0.1:2379 --logtostderr
+
+# Init zetcd with data(or kafka will fail to start)
+$ sudo rkt run                                 \
+    --interactive corpix.github.io/zetcd:0.0.2 \
+    --net=host --exec=/bin/bash                \
+    -- -c "
+        zkctl create '/' ''
+        zkctl create '/brokers' ''
+        zkctl create '/brokers/ids' ''
+        zkctl create '/brokers/topics' ''
+    "
+
+$ sudo rkt run --interactive corpix.github.io/kafka:2.12-0.10.2.1-1496226351 --net=host
+```

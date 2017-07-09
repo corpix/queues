@@ -18,9 +18,9 @@ const (
 )
 
 type Config struct {
-	Type string
-	// Kafka kafka.Config
-	Nsq nsq.Config
+	Type  string
+	Kafka kafka.Config
+	Nsq   nsq.Config
 }
 
 type Queue interface {
