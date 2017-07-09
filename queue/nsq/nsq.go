@@ -26,8 +26,9 @@ func (e *Nsq) Produce(message message.Message) error {
 	)
 }
 
-func (e *Nsq) AddHandler(handler handler.Handler) {
+func (e *Nsq) Consume(handler handler.Handler) error {
 	e.consumer.AddHandler(NewHandler(handler))
+	return e.consumer.ConnectToNSQD(e.config.Addr)
 }
 
 func (e *Nsq) Close() error {
