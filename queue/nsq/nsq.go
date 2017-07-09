@@ -32,6 +32,7 @@ func (e *Nsq) AddHandler(handler handler.Handler) {
 
 func (e *Nsq) Close() error {
 	e.producer.Stop()
+	e.consumer.Stop()
 	return nil
 }
 
