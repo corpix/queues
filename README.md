@@ -59,3 +59,13 @@ $ sudo rkt run                                 \
 
 $ sudo rkt run --interactive corpix.github.io/kafka:2.12-0.10.2.1-1496226351 --net=host
 ```
+
+Now you could run a Kafka example:
+
+``` console
+$ go run ./example/kafka/kafka.go
+INFO[0001] Producing: hello
+INFO[0001] Consumed: hello
+INFO[0006] Producing: hello
+INFO[0006] Consumed: hello
+```
