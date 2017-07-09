@@ -8,7 +8,21 @@ Universal API on top of various message queue systems such as:
 - nsq
 - kafka
 
-## Usage example
+## NSQ example
+
+Prepare NSQ:
+
+> All commands should be run in separate terminal windows.
+
+``` console
+$ sudo rkt run --interactive corpix.github.io/nsq:1.0.0 --net=host -- nsqd --broadcast-address=127.0.0.1 --lookupd-tcp-address=127.0.0.1:4160 --tcp-address=127.0.0.1:4150
+$ sudo rkt run --interactive corpix.github.io/nsq:1.0.0 --net=host -- nsqlookupd --tcp-address=127.0.0.1:4160
+
+# Optionally you could run nsqadmin which will provide you a WEBUI for nsq topics etc.
+$ sudo rkt run --interactive corpix.github.io/nsq:1.0.0 --net=host -- nsqadmin --lookupd-http-address=127.0.0.1:4161 --http-address=127.0.0.1:4171
+```
+
+Now you could run an NSQ example:
 
 ``` console
 $ go run ./example/nsq/nsq.go
