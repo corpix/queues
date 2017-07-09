@@ -19,15 +19,15 @@ type Nsq struct {
 	consumer *nsq.Consumer
 }
 
-func (e *Nsq) Produce(message message.Message) error {
+func (e *Nsq) Produce(m message.Message) error {
 	return e.producer.Publish(
 		e.config.Topic,
-		[]byte(message),
+		[]byte(m),
 	)
 }
 
-func (e *Nsq) Consume(handler handler.Handler) error {
-	e.consumer.AddHandler(NewHandler(handler))
+func (e *Nsq) Consume(h handler.Handler) error {
+	e.consumer.AddHandler(NewHandler(h))
 	return e.consumer.ConnectToNSQD(e.config.Addr)
 }
 
