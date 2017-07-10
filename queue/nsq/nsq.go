@@ -32,8 +32,14 @@ func (e *Nsq) Consume(h handler.Handler) error {
 }
 
 func (e *Nsq) Close() error {
+	// Will block until complete
 	e.producer.Stop()
+
+	// Will NOT block until complete
+	// Just initiates graceful shutdown
 	e.consumer.Stop()
+	<-e.consumer.StopChan
+
 	return nil
 }
 

@@ -64,6 +64,10 @@ func (e *Kafka) consumeLoop(c sarama.PartitionConsumer, h handler.Handler) {
 		case msg = <-c.Messages():
 			h(message.Message(msg.Value))
 		case <-e.consumerDone:
+			err = c.Close()
+			if err != nil {
+				e.logger.Error(err)
+			}
 			return
 		}
 	}
