@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	log "github.com/corpix/logger/logrus"
+	log "github.com/corpix/logger/target/logrus"
 	"github.com/sirupsen/logrus"
 
 	"github.com/corpix/queues"
