@@ -1,4 +1,5 @@
-.DEFAULT_GOAL  = all
+
+.DEFAULT_GOAL = all
 
 name     := queues
 package  := github.com/corpix/$(name)
@@ -9,12 +10,11 @@ build_id := 0x$(shell dd if=/dev/urandom bs=40 count=1 2> /dev/null | sha1sum | 
 ldflags  := -X $(package)/cli.version=$(version) \
             -B $(build_id)
 
-
 .PHONY: all
 all: dependencies
 
 .PHONY: $(name)
-$(NAME): dependencies
+$(name): dependencies
 	mkdir -p $(build)
 	@echo "Build id: $(build_id)"
 	go build -a -ldflags "$(ldflags)" -v \
@@ -23,7 +23,6 @@ $(NAME): dependencies
 
 .PHONY: build
 build: $(name)
-
 
 .PHONY: test
 test: tools
@@ -49,11 +48,12 @@ check: lint test
 
 .PHONY: tools
 tools:
-	@if [ ! -e "$(GOPATH)"/bin/"glide" ]; then go get github.com/Masterminds/glide; fi
-	@if [ ! -e "$(GOPATH)"/bin/"godef" ]; then go get github.com/rogpeppe/godef; fi
-	@if [ ! -e "$(GOPATH)"/bin/"gocode" ]; then go get github.com/nsf/gocode; fi
-	@if [ ! -e "$(GOPATH)"/bin/"gometalinter" ]; then go get github.com/alecthomas/gometalinter && gometalinter --install; fi
-	@if [ ! -e "$(GOPATH)"/src/"github.com/stretchr/testify/assert" ]; then go get github.com/stretchr/testify/assert; fi
+	@if [ ! -e "$(GOPATH)"/bin/glide ]; then go get github.com/Masterminds/glide; fi
+	@if [ ! -e "$(GOPATH)"/bin/godef ]; then go get github.com/rogpeppe/godef; fi
+	@if [ ! -e "$(GOPATH)"/bin/gocode ]; then go get github.com/nsf/gocode; fi
+	@if [ ! -e "$(GOPATH)"/bin/gometalinter ]; then go get github.com/alecthomas/gometalinter && gometalinter --install; fi
+	@if [ ! -e "$(GOPATH)"/src/github.com/stretchr/testify/assert ]; then go get github.com/stretchr/testify/assert; fi
+
 
 .PHONY: dependencies
 dependencies: tools
