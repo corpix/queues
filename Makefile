@@ -11,7 +11,7 @@ ldflags  := -X $(package)/cli.version=$(version) \
             -B $(build_id)
 
 .PHONY: all
-all: dependencies
+all: $(name)
 
 .PHONY: $(name)
 $(name): dependencies
@@ -25,18 +25,18 @@ $(name): dependencies
 build: $(name)
 
 .PHONY: test
-test: tools
+test: dependencies
 	go test -v \
            $(shell glide novendor)
 
 .PHONY: bench
-bench: tools
+bench: dependencies
 	go test        \
            -bench=. -v \
            $(shell glide novendor)
 
 .PHONY: lint
-lint: tools
+lint: dependencies
 	go vet $(shell glide novendor)
 	gometalinter                     \
 		--deadline=5m            \
@@ -60,6 +60,6 @@ dependencies: tools
 	glide install
 
 .PHONY: clean
-clean:
+clean: tools
 	rm -rf $(build)
 	glide cache-clear
