@@ -24,7 +24,7 @@ type Config struct {
 }
 
 type Queue interface {
-	Produce(message message.Message) error
+	Produce(message.Message) error
 	Consume(handler.Handler) error
 	Close() error
 }
