@@ -15,7 +15,6 @@ func main() {
 	logger := log.New(logrus.New())
 
 	c, err := queues.NewFromConfig(
-		logger,
 		queues.Config{
 			Type: queues.NsqQueueType,
 			Nsq: nsq.Config{
@@ -24,6 +23,7 @@ func main() {
 				Channel: "example_consumer",
 			},
 		},
+		logger,
 	)
 	if err != nil {
 		logger.Fatal(err)

@@ -15,7 +15,6 @@ func main() {
 	logger := log.New(logrus.New())
 
 	c, err := queues.NewFromConfig(
-		logger,
 		queues.Config{
 			Type: queues.KafkaQueueType,
 			Kafka: kafka.Config{
@@ -23,6 +22,7 @@ func main() {
 				Topic: "ticker",
 			},
 		},
+		logger,
 	)
 	if err != nil {
 		logger.Fatal(err)
