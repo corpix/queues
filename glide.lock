@@ -1,10 +1,10 @@
 hash: 6b9768d871dfa183491faca7f266794c8eb956f15626974961ce112caed41b11
-updated: 2017-07-17T16:49:34.586924381Z
+updated: 2017-07-17T19:43:59.575798283Z
 imports:
 - name: github.com/bitly/go-nsq
   version: d71fb89c9e0263aaed89645b0b168e11ccf597b1
 - name: github.com/corpix/logger
-  version: 20f7b0499062ae065be7e2c7896692a2dc7f3761
+  version: 143b9234f91396658f50b727c96c064aa9404d96
   subpackages:
   - target/logrus
 - name: github.com/davecgh/go-spew
