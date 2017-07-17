@@ -17,6 +17,4 @@ type Logger interface {
 	Print(...interface{})
 	Error(...interface{})
 	Fatal(...interface{})
-
-	Level() interface{}
 }
