@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	log "github.com/corpix/logger/target/logrus"
+	logger "github.com/corpix/logger/target/logrus"
 	"github.com/sirupsen/logrus"
 
 	"github.com/corpix/queues"
@@ -13,7 +13,7 @@ import (
 
 func main() {
 	logrusLogger := logrus.New()
-	log := log.New(logrusLogger)
+	log := logger.New(logrusLogger)
 
 	c, err := queues.NewFromConfig(
 		queues.Config{
