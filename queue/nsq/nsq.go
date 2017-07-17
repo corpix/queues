@@ -1,9 +1,7 @@
 package nsq
 
 import (
-	"github.com/bitly/go-nsq"
-	"github.com/sirupsen/logrus"
-
+	nsq "github.com/bitly/go-nsq"
 	"github.com/corpix/logger"
 
 	"github.com/corpix/queues/handler"
@@ -45,11 +43,10 @@ func (e *Nsq) Close() error {
 
 //
 
-func NewFromConfig(l logger.Logger, c Config) (*Nsq, error) {
+func NewFromConfig(c Config, l logger.Logger) (*Nsq, error) {
 	var (
-		config      = nsq.NewConfig()
-		logger      = NewLogger(l)
-		loggerLevel = NewLevel(l.Level().(logrus.Level))
+		config = nsq.NewConfig()
+		logger = NewLogger(l)
 
 		producer *nsq.Producer
 		consumer *nsq.Consumer
@@ -62,7 +59,7 @@ func NewFromConfig(l logger.Logger, c Config) (*Nsq, error) {
 	}
 	producer.SetLogger(
 		logger,
-		loggerLevel,
+		c.LogLevel,
 	)
 
 	consumer, err = nsq.NewConsumer(
@@ -75,7 +72,7 @@ func NewFromConfig(l logger.Logger, c Config) (*Nsq, error) {
 	}
 	consumer.SetLogger(
 		logger,
-		loggerLevel,
+		c.LogLevel,
 	)
 
 	return &Nsq{

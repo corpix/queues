@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	logger := log.New(logrus.New())
+	log := log.New(logrus.New())
 
 	c, err := queues.NewFromConfig(
 		queues.Config{
@@ -22,25 +22,25 @@ func main() {
 				Topic: "ticker",
 			},
 		},
-		logger,
+		log,
 	)
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 
 	err = c.Consume(
 		func(m message.Message) {
-			logger.Printf("Consumed: %s", m)
+			log.Printf("Consumed: %s", m)
 		},
 	)
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 
 	go func() {
 		data := []byte("hello")
 		for {
-			logger.Printf("Producing: %s", data)
+			log.Printf("Producing: %s", data)
 			c.Produce(data)
 			time.Sleep(5 * time.Second)
 		}

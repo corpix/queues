@@ -94,7 +94,7 @@ func (e *Kafka) Close() error {
 	return nil
 }
 
-func NewFromConfig(l logger.Logger, c Config) (*Kafka, error) {
+func NewFromConfig(c Config, l logger.Logger) (*Kafka, error) {
 	var (
 		config   = c.Sarama
 		client   sarama.Client

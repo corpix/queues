@@ -12,7 +12,8 @@ import (
 )
 
 func main() {
-	logger := log.New(logrus.New())
+	logrusLogger := logrus.New()
+	log := log.New(logrusLogger)
 
 	c, err := queues.NewFromConfig(
 		queues.Config{
@@ -21,28 +22,34 @@ func main() {
 				Addr:    "127.0.0.1:4150",
 				Topic:   "ticker",
 				Channel: "example_consumer",
+				LogLevel: nsq.NewLogLevelFromLogrus(
+					logrusLogger.Level,
+				),
 			},
 		},
-		logger,
+		log,
 	)
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 
 	err = c.Consume(
 		func(m message.Message) {
-			logger.Printf("Consumed: %s", m)
+			log.Printf("Consumed: %s", m)
 		},
 	)
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 
 	go func() {
 		data := []byte("hello")
 		for {
-			logger.Printf("Producing: %s", data)
-			c.Produce(data)
+			log.Printf("Producing: %s", data)
+			err := c.Produce(data)
+			if err != nil {
+				log.Error(err)
+			}
 			time.Sleep(5 * time.Second)
 		}
 	}()

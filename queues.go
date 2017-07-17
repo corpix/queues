@@ -12,10 +12,14 @@ import (
 	"github.com/corpix/queues/queue/nsq"
 )
 
+//
+
 const (
 	KafkaQueueType = "kafka"
 	NsqQueueType   = "nsq"
 )
+
+//
 
 type Config struct {
 	Type  string
@@ -23,11 +27,15 @@ type Config struct {
 	Nsq   nsq.Config
 }
 
+//
+
 type Queue interface {
 	Produce(message.Message) error
 	Consume(handler.Handler) error
 	Close() error
 }
+
+//
 
 func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
 	var (
@@ -42,13 +50,13 @@ func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
 		switch t {
 		case KafkaQueueType:
 			return kafka.NewFromConfig(
-				l,
 				v.Value().(kafka.Config),
+				l,
 			)
 		case NsqQueueType:
 			return nsq.NewFromConfig(
-				l,
 				v.Value().(nsq.Config),
+				l,
 			)
 		}
 	}

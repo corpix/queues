@@ -9,6 +9,15 @@ import (
 
 //
 
+const (
+	LogLevelDebug   = nsq.LogLevelDebug
+	LogLevelInfo    = nsq.LogLevelInfo
+	LogLevelError   = nsq.LogLevelError
+	LogLevelWarning = nsq.LogLevelWarning
+)
+
+//
+
 type Logger struct {
 	logger.Logger
 }
@@ -26,7 +35,7 @@ func NewLogger(l logger.Logger) *Logger {
 
 //
 
-func NewLevel(lv logrus.Level) nsq.LogLevel {
+func NewLogLevelFromLogrus(lv logrus.Level) nsq.LogLevel {
 	switch lv {
 	case logrus.DebugLevel:
 		return nsq.LogLevelDebug
