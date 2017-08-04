@@ -7,16 +7,12 @@ import (
 	"github.com/corpix/logger"
 )
 
-//
-
 const (
 	LogLevelDebug   = nsq.LogLevelDebug
 	LogLevelInfo    = nsq.LogLevelInfo
 	LogLevelError   = nsq.LogLevelError
 	LogLevelWarning = nsq.LogLevelWarning
 )
-
-//
 
 type Logger struct {
 	logger.Logger
@@ -27,13 +23,9 @@ func (l *Logger) Output(_ int, s string) error {
 	return nil
 }
 
-//
-
 func NewLogger(l logger.Logger) *Logger {
 	return &Logger{l}
 }
-
-//
 
 func NewLogLevelFromLogrus(lv logrus.Level) nsq.LogLevel {
 	switch lv {

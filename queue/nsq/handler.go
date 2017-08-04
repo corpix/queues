@@ -7,8 +7,6 @@ import (
 	"github.com/corpix/queues/message"
 )
 
-//
-
 type Handler handler.Handler
 
 func (h Handler) HandleMessage(m *nsq.Message) error {
@@ -16,8 +14,6 @@ func (h Handler) HandleMessage(m *nsq.Message) error {
 
 	return nil
 }
-
-//
 
 func NewHandler(h handler.Handler) nsq.Handler {
 	return Handler(h)

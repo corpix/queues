@@ -6,21 +6,24 @@ import (
 	"github.com/corpix/logger"
 	"github.com/fatih/structs"
 
+	"github.com/corpix/queues/errors"
 	"github.com/corpix/queues/handler"
 	"github.com/corpix/queues/message"
 	"github.com/corpix/queues/queue/kafka"
 	"github.com/corpix/queues/queue/nsq"
 )
 
-//
-
 const (
+	// KafkaQueueType is a Config Queue type for Apache Kafka.
 	KafkaQueueType = "kafka"
-	NsqQueueType   = "nsq"
+
+	// NsqQueueType is a Config Queue type for NSQ.
+	NsqQueueType = "nsq"
 )
 
 //
 
+// Config is a configuration for Queue.
 type Config struct {
 	Type  string
 	Kafka kafka.Config
@@ -29,6 +32,7 @@ type Config struct {
 
 //
 
+// Queue is a common interface for message queue.
 type Queue interface {
 	Produce(message.Message) error
 	Consume(handler.Handler) error
@@ -37,7 +41,12 @@ type Queue interface {
 
 //
 
+// NewFromConfig creates new Queue from Config.
 func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
+	if l == nil {
+		return nil, errors.NewErrNilArgument(l)
+	}
+
 	var (
 		t = strings.ToLower(c.Type)
 	)
@@ -61,5 +70,5 @@ func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
 		}
 	}
 
-	return nil, NewErrUnknownQueueType(c.Type)
+	return nil, errors.NewErrUnknownQueueType(c.Type)
 }

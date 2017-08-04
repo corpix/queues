@@ -4,8 +4,6 @@ import (
 	nsq "github.com/bitly/go-nsq"
 )
 
-//
-
 type Config struct {
 	Addr     string
 	Topic    string

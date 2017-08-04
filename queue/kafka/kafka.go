@@ -5,6 +5,7 @@ import (
 
 	"github.com/corpix/logger"
 
+	"github.com/corpix/queues/errors"
 	"github.com/corpix/queues/handler"
 	"github.com/corpix/queues/message"
 )
@@ -95,6 +96,10 @@ func (e *Kafka) Close() error {
 }
 
 func NewFromConfig(c Config, l logger.Logger) (*Kafka, error) {
+	if l == nil {
+		return nil, errors.NewErrNilArgument(l)
+	}
+
 	var (
 		config   = c.Sarama
 		client   sarama.Client

@@ -4,11 +4,10 @@ import (
 	nsq "github.com/bitly/go-nsq"
 	"github.com/corpix/logger"
 
+	"github.com/corpix/queues/errors"
 	"github.com/corpix/queues/handler"
 	"github.com/corpix/queues/message"
 )
-
-//
 
 type Nsq struct {
 	logger   logger.Logger
@@ -41,9 +40,11 @@ func (e *Nsq) Close() error {
 	return nil
 }
 
-//
-
 func NewFromConfig(c Config, l logger.Logger) (*Nsq, error) {
+	if l == nil {
+		return nil, errors.NewErrNilArgument(l)
+	}
+
 	var (
 		config = nsq.NewConfig()
 		logger = NewLogger(l)
