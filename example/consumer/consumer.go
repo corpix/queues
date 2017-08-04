@@ -49,6 +49,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer consumer.Close()
 
 	err = c.Consume(consumer.Handler)
 	if err != nil {
