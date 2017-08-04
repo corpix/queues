@@ -1,8 +1,10 @@
 hash: 6b9768d871dfa183491faca7f266794c8eb956f15626974961ce112caed41b11
-updated: 2017-07-17T19:43:59.575798283Z
+updated: 2017-08-04T08:34:39.42611349Z
 imports:
 - name: github.com/bitly/go-nsq
   version: d71fb89c9e0263aaed89645b0b168e11ccf597b1
+- name: github.com/corpix/formats
+  version: db532770e3ecf9dfe31ce2f7bf30c1c26f67e417
 - name: github.com/corpix/logger
   version: 143b9234f91396658f50b727c96c064aa9404d96
   subpackages:
@@ -40,7 +42,9 @@ imports:
 - name: github.com/sirupsen/logrus
   version: 7f976d3a76720c4c27af2ba716b85d2e0a7e38b1
 - name: golang.org/x/sys
-  version: 4cd6d1a821c7175768725b55ca82f14683a29ea4
+  version: d8f5ea21b9295e315e612b4bcf4bedea93454d4d
   subpackages:
   - unix
+- name: gopkg.in/yaml.v2
+  version: 25c4ec802a7d637f88d584ab26798e94ad14c13b
 testImports: []
