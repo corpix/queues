@@ -41,7 +41,10 @@ func main() {
 		data := []byte("hello")
 		for {
 			log.Printf("Producing: %s", data)
-			c.Produce(data)
+			err := c.Produce(data)
+			if err != nil {
+				log.Fatal(err)
+			}
 			time.Sleep(5 * time.Second)
 		}
 	}()
