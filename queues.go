@@ -9,6 +9,7 @@ import (
 	"github.com/corpix/queues/errors"
 	"github.com/corpix/queues/handler"
 	"github.com/corpix/queues/message"
+	"github.com/corpix/queues/queue/channel"
 	"github.com/corpix/queues/queue/kafka"
 	"github.com/corpix/queues/queue/nsq"
 )
@@ -19,18 +20,19 @@ const (
 
 	// NsqQueueType is a Config Queue type for NSQ.
 	NsqQueueType = "nsq"
-)
 
-//
+	// ChannelQueueType is a Config Queue type for go channels.
+	// Usually used for testing.
+	ChannelQueueType = "channel"
+)
 
 // Config is a configuration for Queue.
 type Config struct {
-	Type  string
-	Kafka kafka.Config
-	Nsq   nsq.Config
+	Type    string
+	Kafka   kafka.Config
+	Nsq     nsq.Config
+	Channel channel.Config
 }
-
-//
 
 // Queue is a common interface for message queue.
 type Queue interface {
@@ -38,8 +40,6 @@ type Queue interface {
 	Consume(handler.Handler) error
 	Close() error
 }
-
-//
 
 // NewFromConfig creates new Queue from Config.
 func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
@@ -65,6 +65,11 @@ func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
 		case NsqQueueType:
 			return nsq.NewFromConfig(
 				v.Value().(nsq.Config),
+				l,
+			)
+		case ChannelQueueType:
+			return channel.NewFromConfig(
+				v.Value().(channel.Config),
 				l,
 			)
 		}
