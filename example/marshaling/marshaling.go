@@ -1,6 +1,7 @@
 package main
 
 import (
+	"sync"
 	"time"
 
 	"github.com/corpix/formats"
@@ -8,7 +9,6 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/corpix/queues"
-	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/queue/channel"
 )
 
@@ -28,7 +28,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	c, err := queues.NewFromConfig(
+	q, err := queues.NewFromConfig(
 		queues.Config{
 			Type: queues.ChannelQueueType,
 			Channel: channel.Config{
@@ -41,45 +41,69 @@ func main() {
 		log.Fatal(err)
 	}
 
-	consumer, err := consumer.New(
+	c, err := q.Consumer()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer c.Close()
+
+	uc, err := queues.NewUnmarshalConsumer(
 		Message{},
+		c,
 		json,
 		log,
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer consumer.Close()
+	defer uc.Close()
 
-	err = c.Consume(consumer.Handler)
+	p, err := q.Producer()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer p.Close()
+
+	mp, err := queues.NewMarshalProducer(
+		p,
+		json,
+		log,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer mp.Close()
 
 	go func() {
-		for m := range consumer.GetFeed() {
+		for m := range uc.Consume() {
 			log.Printf("Consumed: %#v", m)
 		}
 	}()
 
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
+		n := 0
 		message := Message{"foo", "bar"}
-		data, err := json.Marshal(message)
-		if err != nil {
-			log.Fatal(err)
-		}
 
 		for {
-			log.Printf("Producing: %s", data)
+			if n >= 5 {
+				break
+			}
 
-			err = c.Produce(data)
+			log.Printf("Producing: %#v", message)
+
+			err := mp.Produce(message)
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			time.Sleep(5 * time.Second)
+			time.Sleep(2 * time.Second)
+			n++
 		}
 	}()
 
-	select {}
+	wg.Wait()
+	log.Print("Done")
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"sync"
 	"time"
 
 	logger "github.com/corpix/logger/target/logrus"
@@ -14,7 +15,7 @@ import (
 func main() {
 	log := logger.New(logrus.New())
 
-	c, err := queues.NewFromConfig(
+	q, err := queues.NewFromConfig(
 		queues.Config{
 			Type: queues.ChannelQueueType,
 			Channel: channel.Config{
@@ -26,27 +27,51 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer q.Close()
 
-	err = c.Consume(
-		func(m message.Message) {
-			log.Printf("Consumed: %s", m)
-		},
-	)
+	c, err := q.Consumer()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer c.Close()
+
+	p, err := q.Producer()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer p.Close()
 
 	go func() {
-		data := []byte("hello")
-		for {
-			log.Printf("Producing: %s", data)
-			err := c.Produce(data)
-			if err != nil {
-				log.Fatal(err)
-			}
-			time.Sleep(5 * time.Second)
+		for m := range c.Consume() {
+			log.Printf("Consumed: %s", m)
 		}
 	}()
 
-	select {}
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		n := 0
+		message := message.Message("hello")
+
+		for {
+			if n >= 5 {
+				break
+			}
+
+			log.Printf("Producing: %s", message)
+
+			err := p.Produce(message)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			time.Sleep(2 * time.Second)
+			n++
+		}
+	}()
+
+	wg.Wait()
+	log.Print("Done")
+
 }

@@ -3,37 +3,28 @@ package channel
 import (
 	"github.com/corpix/logger"
 
+	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/handler"
 	"github.com/corpix/queues/message"
+	"github.com/corpix/queues/producer"
 )
 
 type Channel struct {
-	logger logger.Logger
-	config Config
-	feed   chan message.Message
+	config  Config
+	log     logger.Logger
+	channel chan message.Message
 }
 
-func (e *Channel) Produce(m message.Message) error {
-	e.feed <- m
-
-	return nil
+func (q *Channel) Producer() (producer.Producer, error) {
+	return NewProducer(q.channel)
 }
 
-func (e *Channel) Consume(h handler.Handler) error {
-	go e.consumeLoop(h)
-
-	return nil
+func (q *Channel) Consumer() (consumer.Consumer, error) {
+	return NewConsumer(q.channel)
 }
 
-func (e *Channel) consumeLoop(h handler.Handler) {
-	for m := range e.feed {
-		h(m)
-	}
-}
-
-func (e *Channel) Close() error {
-	close(e.feed)
+func (q *Channel) Close() error {
+	close(q.channel)
 
 	return nil
 }
@@ -44,9 +35,9 @@ func NewFromConfig(c Config, l logger.Logger) (*Channel, error) {
 	}
 
 	return &Channel{
-		logger: l,
 		config: c,
-		feed: make(
+		log:    l,
+		channel: make(
 			chan message.Message,
 			c.Capacity,
 		),

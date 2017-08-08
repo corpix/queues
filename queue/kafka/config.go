@@ -5,7 +5,8 @@ import (
 )
 
 type Config struct {
-	Addrs  []string
-	Topic  string
-	Sarama *sarama.Config
+	Addrs              []string
+	Topic              string
+	ConsumerBufferSize uint
+	Kafka              *sarama.Config
 }

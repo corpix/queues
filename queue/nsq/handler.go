@@ -3,11 +3,10 @@ package nsq
 import (
 	"github.com/bitly/go-nsq"
 
-	"github.com/corpix/queues/handler"
 	"github.com/corpix/queues/message"
 )
 
-type Handler handler.Handler
+type Handler func(m message.Message)
 
 func (h Handler) HandleMessage(m *nsq.Message) error {
 	h(message.Message(m.Body))
@@ -15,6 +14,6 @@ func (h Handler) HandleMessage(m *nsq.Message) error {
 	return nil
 }
 
-func NewHandler(h handler.Handler) nsq.Handler {
+func NewHandler(h Handler) nsq.Handler {
 	return Handler(h)
 }

@@ -5,8 +5,10 @@ import (
 )
 
 type Config struct {
-	Addr     string
-	Topic    string
-	Channel  string
-	LogLevel nsq.LogLevel
+	Addr               string
+	Topic              string
+	Channel            string
+	ConsumerBufferSize uint
+	LogLevel           nsq.LogLevel
+	Nsq                *nsq.Config
 }

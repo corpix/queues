@@ -6,9 +6,9 @@ import (
 	"github.com/corpix/logger"
 	"github.com/fatih/structs"
 
+	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/handler"
-	"github.com/corpix/queues/message"
+	"github.com/corpix/queues/producer"
 	"github.com/corpix/queues/queue/channel"
 	"github.com/corpix/queues/queue/kafka"
 	"github.com/corpix/queues/queue/nsq"
@@ -36,8 +36,8 @@ type Config struct {
 
 // Queue is a common interface for message queue.
 type Queue interface {
-	Produce(message.Message) error
-	Consume(handler.Handler) error
+	Producer() (producer.Producer, error)
+	Consumer() (consumer.Consumer, error)
 	Close() error
 }
 
