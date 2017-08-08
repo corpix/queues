@@ -9,6 +9,8 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/corpix/queues"
+	"github.com/corpix/queues/consumer"
+	"github.com/corpix/queues/producer"
 	"github.com/corpix/queues/queue/channel"
 )
 
@@ -47,7 +49,7 @@ func main() {
 	}
 	defer c.Close()
 
-	uc, err := queues.NewUnmarshalConsumer(
+	uc, err := consumer.NewUnmarshalConsumer(
 		Message{},
 		c,
 		json,
@@ -64,7 +66,7 @@ func main() {
 	}
 	defer p.Close()
 
-	mp, err := queues.NewMarshalProducer(
+	mp, err := producer.NewMarshalProducer(
 		p,
 		json,
 		log,

@@ -1,4 +1,4 @@
-package queues
+package consumer
 
 import (
 	"reflect"
@@ -6,7 +6,6 @@ import (
 	"github.com/corpix/formats"
 	"github.com/corpix/logger"
 
-	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
 )
 
@@ -14,7 +13,7 @@ import (
 // a unmarshaling wrapper around Consumer.
 type UnmarshalConsumer struct {
 	Type     reflect.Type
-	consumer consumer.Consumer
+	consumer Consumer
 	Format   formats.Format
 	channel  chan interface{}
 	log      logger.Logger
@@ -22,7 +21,7 @@ type UnmarshalConsumer struct {
 
 // Consume returns a read-only version of the channel
 // with messages coming into.
-// It tries to mimic consumer.Consumer interface.
+// It tries to mimic Consumer interface.
 // (but it can't deliver a better UX coz go has no generics ¯\_(ツ)_/¯).
 func (c *UnmarshalConsumer) Consume() <-chan interface{} {
 	return c.channel
@@ -62,7 +61,7 @@ func (c *UnmarshalConsumer) Close() error {
 // It receives f which will be used to unmarshal the Message.
 // It receives l which will be used in case of any errors
 // to log them.
-func NewUnmarshalConsumer(t interface{}, c consumer.Consumer, f formats.Format, l logger.Logger) (*UnmarshalConsumer, error) {
+func NewUnmarshalConsumer(t interface{}, c Consumer, f formats.Format, l logger.Logger) (*UnmarshalConsumer, error) {
 	if t == nil {
 		return nil, errors.NewErrNilArgument(t)
 	}

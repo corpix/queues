@@ -1,17 +1,16 @@
-package queues
+package producer
 
 import (
 	"github.com/corpix/formats"
 	"github.com/corpix/logger"
 
 	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/producer"
 )
 
 // MarshalProducer is an addon for Queue which provides
 // a marshaling wrapper around Producer.
 type MarshalProducer struct {
-	producer producer.Producer
+	producer Producer
 	Format   formats.Format
 	log      logger.Logger
 }
@@ -44,7 +43,7 @@ func (c *MarshalProducer) Close() error {
 // It receives f which will be used to marshal the Message.
 // It receives l which will be used in case of any errors
 // to log them.
-func NewMarshalProducer(p producer.Producer, f formats.Format, l logger.Logger) (*MarshalProducer, error) {
+func NewMarshalProducer(p Producer, f formats.Format, l logger.Logger) (*MarshalProducer, error) {
 	if p == nil {
 		return nil, errors.NewErrNilArgument(p)
 	}
