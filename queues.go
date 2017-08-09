@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/corpix/logger"
-	"github.com/fatih/structs"
 
 	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
@@ -47,33 +46,23 @@ func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
 		return nil, errors.NewErrNilArgument(l)
 	}
 
-	var (
-		t = strings.ToLower(c.Type)
-	)
-
-	for _, v := range structs.New(c).Fields() {
-		if strings.ToLower(v.Name()) != t {
-			continue
-		}
-
-		switch t {
-		case KafkaQueueType:
-			return kafka.NewFromConfig(
-				v.Value().(kafka.Config),
-				l,
-			)
-		case NsqQueueType:
-			return nsq.NewFromConfig(
-				v.Value().(nsq.Config),
-				l,
-			)
-		case ChannelQueueType:
-			return channel.NewFromConfig(
-				v.Value().(channel.Config),
-				l,
-			)
-		}
+	switch strings.ToLower(c.Type) {
+	case KafkaQueueType:
+		return kafka.NewFromConfig(
+			c.Kafka,
+			l,
+		)
+	case NsqQueueType:
+		return nsq.NewFromConfig(
+			c.Nsq,
+			l,
+		)
+	case ChannelQueueType:
+		return channel.NewFromConfig(
+			c.Channel,
+			l,
+		)
+	default:
+		return nil, errors.NewErrUnknownQueueType(c.Type)
 	}
-
-	return nil, errors.NewErrUnknownQueueType(c.Type)
 }

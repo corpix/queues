@@ -16,8 +16,6 @@ func (e *ErrNilArgument) Error() string {
 	)
 }
 
-//
-
 // NewErrNilArgument creates new ErrNilArgument error.
 func NewErrNilArgument(value interface{}) error {
 	return &ErrNilArgument{value}
