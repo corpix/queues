@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/corpix/loggers"
+	"github.com/corpix/loggers/logger/prefixwrapper"
 
 	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
@@ -50,17 +51,26 @@ func NewFromConfig(c Config, l loggers.Logger) (Queue, error) {
 	case KafkaQueueType:
 		return kafka.NewFromConfig(
 			c.Kafka,
-			l,
+			prefixwrapper.New(
+				loggerPrefix(KafkaQueueType),
+				l,
+			),
 		)
 	case NsqQueueType:
 		return nsq.NewFromConfig(
 			c.Nsq,
-			l,
+			prefixwrapper.New(
+				loggerPrefix(NsqQueueType),
+				l,
+			),
 		)
 	case ChannelQueueType:
 		return channel.NewFromConfig(
 			c.Channel,
-			l,
+			prefixwrapper.New(
+				loggerPrefix(ChannelQueueType),
+				l,
+			),
 		)
 	default:
 		return nil, errors.NewErrUnknownQueueType(c.Type)
