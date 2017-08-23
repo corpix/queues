@@ -2,7 +2,7 @@ package nsq
 
 import (
 	nsq "github.com/bitly/go-nsq"
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
@@ -28,7 +28,7 @@ func (c *Consumer) Close() error {
 	return nil
 }
 
-func NewConsumer(c Config, l logger.Logger) (consumer.Consumer, error) {
+func NewConsumer(c Config, l loggers.Logger) (consumer.Consumer, error) {
 	if l == nil {
 		return nil, errors.NewErrNilArgument(l)
 	}

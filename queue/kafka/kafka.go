@@ -1,7 +1,7 @@
 package kafka
 
 import (
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
@@ -10,7 +10,7 @@ import (
 
 type Kafka struct {
 	config Config
-	log    logger.Logger
+	log    loggers.Logger
 }
 
 func (q *Kafka) Producer() (producer.Producer, error) {
@@ -23,7 +23,7 @@ func (q *Kafka) Consumer() (consumer.Consumer, error) {
 
 func (q *Kafka) Close() error { return nil }
 
-func NewFromConfig(c Config, l logger.Logger) (*Kafka, error) {
+func NewFromConfig(c Config, l loggers.Logger) (*Kafka, error) {
 	if l == nil {
 		return nil, errors.NewErrNilArgument(l)
 	}

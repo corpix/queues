@@ -4,7 +4,7 @@ import (
 	"github.com/bitly/go-nsq"
 	"github.com/sirupsen/logrus"
 
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 )
 
 const (
@@ -15,7 +15,7 @@ const (
 )
 
 type Logger struct {
-	logger.Logger
+	loggers.Logger
 }
 
 func (l *Logger) Output(_ int, s string) error {
@@ -23,7 +23,7 @@ func (l *Logger) Output(_ int, s string) error {
 	return nil
 }
 
-func NewLogger(l logger.Logger) *Logger {
+func NewLogger(l loggers.Logger) *Logger {
 	return &Logger{l}
 }
 

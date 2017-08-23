@@ -1,7 +1,7 @@
 package channel
 
 import (
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
@@ -11,7 +11,7 @@ import (
 
 type Channel struct {
 	config  Config
-	log     logger.Logger
+	log     loggers.Logger
 	channel chan message.Message
 }
 
@@ -29,7 +29,7 @@ func (q *Channel) Close() error {
 	return nil
 }
 
-func NewFromConfig(c Config, l logger.Logger) (*Channel, error) {
+func NewFromConfig(c Config, l loggers.Logger) (*Channel, error) {
 	if l == nil {
 		return nil, errors.NewErrNilArgument(l)
 	}

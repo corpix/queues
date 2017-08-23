@@ -2,7 +2,7 @@ package kafka
 
 import (
 	"github.com/Shopify/sarama"
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/errors"
 	"github.com/corpix/queues/message"
@@ -12,7 +12,7 @@ type Consumer struct {
 	client                 sarama.Client
 	kafkaConsumer          sarama.Consumer
 	kafkaPartitionConsumer sarama.PartitionConsumer
-	log                    logger.Logger
+	log                    loggers.Logger
 	channel                chan message.Message
 	done                   chan bool
 }
@@ -65,7 +65,7 @@ func (c *Consumer) Close() error {
 	return nil
 }
 
-func NewConsumer(c Config, l logger.Logger) (*Consumer, error) {
+func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
 	if l == nil {
 		return nil, errors.NewErrNilArgument(l)
 	}

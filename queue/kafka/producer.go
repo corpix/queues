@@ -2,7 +2,7 @@ package kafka
 
 import (
 	"github.com/Shopify/sarama"
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/errors"
 	"github.com/corpix/queues/message"
@@ -12,7 +12,7 @@ type Producer struct {
 	topic         string
 	client        sarama.Client
 	kafkaProducer sarama.SyncProducer
-	log           logger.Logger
+	log           loggers.Logger
 }
 
 func (p *Producer) Produce(m message.Message) error {
@@ -47,7 +47,7 @@ func (p *Producer) Close() error {
 	return nil
 }
 
-func NewProducer(c Config, l logger.Logger) (*Producer, error) {
+func NewProducer(c Config, l loggers.Logger) (*Producer, error) {
 	if l == nil {
 		return nil, errors.NewErrNilArgument(l)
 	}

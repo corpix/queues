@@ -4,7 +4,7 @@ import (
 	"reflect"
 
 	"github.com/corpix/formats"
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/errors"
 )
@@ -16,7 +16,7 @@ type UnmarshalConsumer struct {
 	consumer Consumer
 	Format   formats.Format
 	channel  chan interface{}
-	log      logger.Logger
+	log      loggers.Logger
 }
 
 // Consume returns a read-only version of the channel
@@ -61,7 +61,7 @@ func (c *UnmarshalConsumer) Close() error {
 // It receives f which will be used to unmarshal the Message.
 // It receives l which will be used in case of any errors
 // to log them.
-func NewUnmarshalConsumer(t interface{}, c Consumer, f formats.Format, l logger.Logger) (*UnmarshalConsumer, error) {
+func NewUnmarshalConsumer(t interface{}, c Consumer, f formats.Format, l loggers.Logger) (*UnmarshalConsumer, error) {
 	if t == nil {
 		return nil, errors.NewErrNilArgument(t)
 	}

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/corpix/formats"
-	logger "github.com/corpix/logger/target/logrus"
+	logger "github.com/corpix/loggers/logger/logrus"
 	"github.com/sirupsen/logrus"
 
 	"github.com/corpix/queues"

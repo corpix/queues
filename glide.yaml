@@ -4,7 +4,7 @@ import:
   version: v1.12.0
 - package: github.com/bitly/go-nsq
   version: v1.0.6
-- package: github.com/corpix/logger
+- package: github.com/corpix/loggers
   subpackages:
   - target/logrus
 - package: github.com/fatih/structs

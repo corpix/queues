@@ -5,7 +5,7 @@ imports:
   version: d71fb89c9e0263aaed89645b0b168e11ccf597b1
 - name: github.com/corpix/formats
   version: db532770e3ecf9dfe31ce2f7bf30c1c26f67e417
-- name: github.com/corpix/logger
+- name: github.com/corpix/loggers
   version: 143b9234f91396658f50b727c96c064aa9404d96
   subpackages:
   - target/logrus

@@ -3,7 +3,7 @@ package queues
 import (
 	"strings"
 
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
@@ -41,7 +41,7 @@ type Queue interface {
 }
 
 // NewFromConfig creates new Queue from Config.
-func NewFromConfig(c Config, l logger.Logger) (Queue, error) {
+func NewFromConfig(c Config, l loggers.Logger) (Queue, error) {
 	if l == nil {
 		return nil, errors.NewErrNilArgument(l)
 	}

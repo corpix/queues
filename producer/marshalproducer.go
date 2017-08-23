@@ -2,7 +2,7 @@ package producer
 
 import (
 	"github.com/corpix/formats"
-	"github.com/corpix/logger"
+	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/errors"
 )
@@ -12,7 +12,7 @@ import (
 type MarshalProducer struct {
 	producer Producer
 	Format   formats.Format
-	log      logger.Logger
+	log      loggers.Logger
 }
 
 // Produce marshals a message `m` into Format and produces it
@@ -43,7 +43,7 @@ func (c *MarshalProducer) Close() error {
 // It receives f which will be used to marshal the Message.
 // It receives l which will be used in case of any errors
 // to log them.
-func NewMarshalProducer(p Producer, f formats.Format, l logger.Logger) (*MarshalProducer, error) {
+func NewMarshalProducer(p Producer, f formats.Format, l loggers.Logger) (*MarshalProducer, error) {
 	if p == nil {
 		return nil, errors.NewErrNilArgument(p)
 	}
