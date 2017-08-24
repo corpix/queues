@@ -1,13 +1,15 @@
-hash: 6b9768d871dfa183491faca7f266794c8eb956f15626974961ce112caed41b11
-updated: 2017-08-04T08:34:39.42611349Z
+hash: 9b6a7aacb0cabd6c549c966ca37431a0ff7c07a7fa77735cae102da63db64d24
+updated: 2017-08-24T21:59:55.766269724Z
 imports:
 - name: github.com/bitly/go-nsq
   version: d71fb89c9e0263aaed89645b0b168e11ccf597b1
 - name: github.com/corpix/formats
   version: db532770e3ecf9dfe31ce2f7bf30c1c26f67e417
 - name: github.com/corpix/loggers
-  version: 143b9234f91396658f50b727c96c064aa9404d96
+  version: ca89089924c60b88d088de6337f812c04b55db83
   subpackages:
+  - logger/logrus
+  - logger/prefixwrapper
   - target/logrus
 - name: github.com/davecgh/go-spew
   version: adab96458c51a58dc1783b3335dcce5461522e75
@@ -42,9 +44,9 @@ imports:
 - name: github.com/sirupsen/logrus
   version: 7f976d3a76720c4c27af2ba716b85d2e0a7e38b1
 - name: golang.org/x/sys
-  version: d8f5ea21b9295e315e612b4bcf4bedea93454d4d
+  version: 07c182904dbd53199946ba614a412c61d3c548f5
   subpackages:
   - unix
 - name: gopkg.in/yaml.v2
-  version: 25c4ec802a7d637f88d584ab26798e94ad14c13b
+  version: eb3733d160e74a9c7e442f435eb3bea458e1d19f
 testImports: []
