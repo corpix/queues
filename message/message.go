@@ -1,3 +1,3 @@
 package message
 
-type Message []byte
+type Message = []byte
