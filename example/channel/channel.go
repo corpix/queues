@@ -42,8 +42,13 @@ func main() {
 	defer p.Close()
 
 	go func() {
-		for m := range c.Consume() {
-			log.Printf("Consumed: %s", m)
+		for r := range c.Consume() {
+			switch {
+			case r.Err != nil:
+				panic(r.Err)
+			default:
+				log.Printf("Consumed: %s", r.Value)
+			}
 		}
 	}()
 

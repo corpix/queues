@@ -5,7 +5,7 @@ import (
 	"github.com/corpix/loggers"
 
 	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/message"
+	"github.com/corpix/queues/result"
 )
 
 type Consumer struct {
@@ -13,11 +13,11 @@ type Consumer struct {
 	kafkaConsumer          sarama.Consumer
 	kafkaPartitionConsumer sarama.PartitionConsumer
 	log                    loggers.Logger
-	channel                chan message.Message
+	channel                chan result.Result
 	done                   chan bool
 }
 
-func (c *Consumer) Consume() <-chan message.Message {
+func (c *Consumer) Consume() <-chan result.Result {
 	return c.channel
 }
 
@@ -29,12 +29,18 @@ func (c *Consumer) consume() {
 
 	for {
 		select {
-		case err = <-c.kafkaPartitionConsumer.Errors():
-			c.log.Error(err)
-		case msg = <-c.kafkaPartitionConsumer.Messages():
-			c.channel <- msg.Value
 		case <-c.done:
-			break
+			return
+		case err = <-c.kafkaPartitionConsumer.Errors():
+			c.channel <- result.Result{
+				Value: nil,
+				Err:   err,
+			}
+		case msg = <-c.kafkaPartitionConsumer.Messages():
+			c.channel <- result.Result{
+				Value: msg.Value,
+				Err:   nil,
+			}
 		}
 	}
 }
@@ -59,8 +65,9 @@ func (c *Consumer) Close() error {
 		return err
 	}
 
-	close(c.channel)
 	close(c.done)
+	// XXX: c.channel will be GC'ed, not closing it
+	// to mitigate write to closed channel in case of race.
 
 	return nil
 }
@@ -113,7 +120,7 @@ func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
 		kafkaPartitionConsumer: kafkaPartitionConsumer,
 		log: l,
 		channel: make(
-			chan message.Message,
+			chan result.Result,
 			c.ConsumerBufferSize,
 		),
 		done: make(chan bool),

@@ -7,15 +7,24 @@ import (
 	"github.com/corpix/queues/consumer"
 	"github.com/corpix/queues/errors"
 	"github.com/corpix/queues/message"
+	"github.com/corpix/queues/result"
 )
 
 type Consumer struct {
 	nsqConsumer *nsq.Consumer
-	channel     chan message.Message
+	channel     chan result.Result
 }
 
-func (c *Consumer) handler(m message.Message)       { c.channel <- m }
-func (c *Consumer) Consume() <-chan message.Message { return c.channel }
+func (c *Consumer) handler(m message.Message) {
+	c.channel <- result.Result{
+		Value: m,
+		Err:   nil,
+	}
+}
+
+func (c *Consumer) Consume() <-chan result.Result {
+	return c.channel
+}
 
 func (c *Consumer) Close() error {
 	// Will NOT block until complete
@@ -55,7 +64,7 @@ func NewConsumer(c Config, l loggers.Logger) (consumer.Consumer, error) {
 	consumer = &Consumer{
 		nsqConsumer: nsqConsumer,
 		channel: make(
-			chan message.Message,
+			chan result.Result,
 			c.ConsumerBufferSize,
 		),
 	}
