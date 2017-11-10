@@ -1,7 +1,7 @@
 queues
 -------
 
-[![Build Status](https://travis-ci.org/corpix/queues.svg?branch=master)](https://travis-ci.org/corpix/queues)
+[![Build Status](https://travis-ci.org/cryptounicorns/queues.svg?branch=master)](https://travis-ci.org/cryptounicorns/queues)
 
 Universal API on top of various message queue systems such as:
 

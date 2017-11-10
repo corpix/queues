@@ -1,8 +1,8 @@
 package channel
 
 import (
-	"github.com/corpix/queues/message"
-	"github.com/corpix/queues/result"
+	"github.com/cryptounicorns/queues/message"
+	"github.com/cryptounicorns/queues/result"
 )
 
 type Consumer struct {

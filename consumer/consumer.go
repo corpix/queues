@@ -1,7 +1,7 @@
 package consumer
 
 import (
-	"github.com/corpix/queues/result"
+	"github.com/cryptounicorns/queues/result"
 )
 
 type Consumer interface {

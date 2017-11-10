@@ -7,9 +7,9 @@ import (
 	logger "github.com/corpix/loggers/logger/logrus"
 	"github.com/sirupsen/logrus"
 
-	"github.com/corpix/queues"
-	"github.com/corpix/queues/message"
-	"github.com/corpix/queues/queue/channel"
+	"github.com/cryptounicorns/queues"
+	"github.com/cryptounicorns/queues/message"
+	"github.com/cryptounicorns/queues/queue/channel"
 )
 
 func main() {

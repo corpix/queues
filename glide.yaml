@@ -1,4 +1,4 @@
-package: github.com/corpix/queues
+package: github.com/cryptounicorns/queues
 import:
 - package: github.com/Shopify/sarama
   version: v1.12.0

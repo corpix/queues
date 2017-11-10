@@ -6,10 +6,10 @@ import (
 	"github.com/corpix/loggers"
 	"github.com/corpix/loggers/logger/prefixwrapper"
 
-	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/queue/channel"
-	"github.com/corpix/queues/queue/kafka"
-	"github.com/corpix/queues/queue/nsq"
+	"github.com/cryptounicorns/queues/errors"
+	"github.com/cryptounicorns/queues/queue/channel"
+	"github.com/cryptounicorns/queues/queue/kafka"
+	"github.com/cryptounicorns/queues/queue/nsq"
 )
 
 const (

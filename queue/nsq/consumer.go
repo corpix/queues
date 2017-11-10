@@ -4,10 +4,10 @@ import (
 	nsq "github.com/bitly/go-nsq"
 	"github.com/corpix/loggers"
 
-	"github.com/corpix/queues/consumer"
-	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/message"
-	"github.com/corpix/queues/result"
+	"github.com/cryptounicorns/queues/consumer"
+	"github.com/cryptounicorns/queues/errors"
+	"github.com/cryptounicorns/queues/message"
+	"github.com/cryptounicorns/queues/result"
 )
 
 type Consumer struct {

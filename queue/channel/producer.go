@@ -1,7 +1,7 @@
 package channel
 
 import (
-	"github.com/corpix/queues/message"
+	"github.com/cryptounicorns/queues/message"
 )
 
 type Producer struct {

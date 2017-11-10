@@ -4,8 +4,8 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/corpix/loggers"
 
-	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/message"
+	"github.com/cryptounicorns/queues/errors"
+	"github.com/cryptounicorns/queues/message"
 )
 
 type Producer struct {

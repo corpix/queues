@@ -1,7 +1,7 @@
 package result
 
 import (
-	"github.com/corpix/queues/message"
+	"github.com/cryptounicorns/queues/message"
 )
 
 type Result struct {

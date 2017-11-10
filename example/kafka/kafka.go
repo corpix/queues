@@ -7,9 +7,9 @@ import (
 	logger "github.com/corpix/loggers/logger/logrus"
 	"github.com/sirupsen/logrus"
 
-	"github.com/corpix/queues"
-	"github.com/corpix/queues/message"
-	"github.com/corpix/queues/queue/kafka"
+	"github.com/cryptounicorns/queues"
+	"github.com/cryptounicorns/queues/message"
+	"github.com/cryptounicorns/queues/queue/kafka"
 )
 
 func main() {

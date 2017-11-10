@@ -4,7 +4,7 @@ numcpus  := $(shell cat /proc/cpuinfo | grep '^processor\s*:' | wc -l)
 version  := $(shell git rev-list --count HEAD).$(shell git rev-parse --short HEAD)
 
 name     := queues
-package  := github.com/corpix/$(name)
+package  := github.com/cryptounicorns/$(name)
 
 .PHONY: all
 all:: dependencies

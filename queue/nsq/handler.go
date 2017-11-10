@@ -3,7 +3,7 @@ package nsq
 import (
 	"github.com/bitly/go-nsq"
 
-	"github.com/corpix/queues/message"
+	"github.com/cryptounicorns/queues/message"
 )
 
 type Handler func(m message.Message)

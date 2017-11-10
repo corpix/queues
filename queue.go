@@ -1,8 +1,8 @@
 package queues
 
 import (
-	"github.com/corpix/queues/consumer"
-	"github.com/corpix/queues/producer"
+	"github.com/cryptounicorns/queues/consumer"
+	"github.com/cryptounicorns/queues/producer"
 )
 
 // Queue is a common interface for message queue.

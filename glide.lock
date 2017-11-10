@@ -1,5 +1,5 @@
-hash: 9b6a7aacb0cabd6c549c966ca37431a0ff7c07a7fa77735cae102da63db64d24
-updated: 2017-11-09T22:28:59.284703068Z
+hash: 6febd5be24501e26da6fee082282a3a9c9fb4f60d8d5d608deaefe8f9ecd7ed1
+updated: 2017-11-10T23:08:44.324125642Z
 imports:
 - name: github.com/bitly/go-nsq
   version: d71fb89c9e0263aaed89645b0b168e11ccf597b1
@@ -10,7 +10,7 @@ imports:
   - logger/prefixwrapper
   - target/logrus
 - name: github.com/davecgh/go-spew
-  version: ecdeabc65495df2dec95d7c4a4c3e021903035e5
+  version: 346938d642f2ec3594ed81d874461961cd0faa76
   subpackages:
   - spew
 - name: github.com/eapache/go-resiliency

@@ -3,10 +3,10 @@ package channel
 import (
 	"github.com/corpix/loggers"
 
-	"github.com/corpix/queues/consumer"
-	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/message"
-	"github.com/corpix/queues/producer"
+	"github.com/cryptounicorns/queues/consumer"
+	"github.com/cryptounicorns/queues/errors"
+	"github.com/cryptounicorns/queues/message"
+	"github.com/cryptounicorns/queues/producer"
 )
 
 type Channel struct {

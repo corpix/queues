@@ -4,8 +4,8 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/corpix/loggers"
 
-	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/result"
+	"github.com/cryptounicorns/queues/errors"
+	"github.com/cryptounicorns/queues/result"
 )
 
 type Consumer struct {
