@@ -7,7 +7,6 @@ import (
 	"github.com/corpix/loggers/logger/prefixwrapper"
 
 	"github.com/corpix/queues/errors"
-	"github.com/corpix/queues/queue"
 	"github.com/corpix/queues/queue/channel"
 	"github.com/corpix/queues/queue/kafka"
 	"github.com/corpix/queues/queue/nsq"
@@ -34,7 +33,7 @@ type Config struct {
 }
 
 // NewFromConfig creates new Queue from Config.
-func NewFromConfig(c Config, l loggers.Logger) (queue.Queue, error) {
+func NewFromConfig(c Config, l loggers.Logger) (Queue, error) {
 	if l == nil {
 		return nil, errors.NewErrNilArgument(l)
 	}
