@@ -1,26 +1,32 @@
-package channel
+package readwriter
 
 import (
+	"io"
+
 	"github.com/corpix/loggers"
 
 	"github.com/cryptounicorns/queues/message"
 )
 
 type Producer struct {
-	channel chan message.Message
+	writer io.Writer
 }
 
 func (p *Producer) Produce(m message.Message) error {
-	p.channel <- m
-	return nil
+	var (
+		err error
+	)
+
+	_, err = p.writer.Write(m)
+	return err
 }
 
 func (p *Producer) Close() error {
 	return nil
 }
 
-func NewProducer(channel chan message.Message, c Config, l loggers.Logger) (*Producer, error) {
+func NewProducer(w io.Writer, c Config, l loggers.Logger) (*Producer, error) {
 	return &Producer{
-		channel: channel,
+		writer: w,
 	}, nil
 }

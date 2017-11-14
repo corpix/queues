@@ -38,14 +38,24 @@ func (c *Consumer) Close() error {
 	return nil
 }
 
-func NewConsumer(channel chan message.Message, l loggers.Logger) (*Consumer, error) {
+func NewConsumer(channel chan message.Message, c Config, l loggers.Logger) (*Consumer, error) {
 	var (
-		consumer = &Consumer{
-			channel: channel,
-			stream:  make(chan result.Result),
-			done:    make(chan struct{}),
-		}
+		capacity = c.Capacity
+		consumer *Consumer
 	)
+
+	if capacity == 0 {
+		capacity = 1
+	}
+
+	consumer = &Consumer{
+		channel: channel,
+		stream: make(
+			chan result.Result,
+			capacity,
+		),
+		done: make(chan struct{}),
+	}
 
 	go consumerWorker(consumer)
 

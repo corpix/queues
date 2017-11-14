@@ -8,7 +8,7 @@ type Config struct {
 	Addr               string
 	Topic              string
 	Channel            string
-	Concurrency        int
+	Concurrency        uint
 	ConsumerBufferSize uint
 	LogLevel           nsq.LogLevel
 	Nsq                *nsq.Config

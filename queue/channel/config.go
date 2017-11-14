@@ -1,5 +1,5 @@
 package channel
 
 type Config struct {
-	Capacity int
+	Capacity uint
 }

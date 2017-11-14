@@ -8,6 +8,11 @@ Universal API on top of various message queue systems such as:
 - channel
 - nsq
 - kafka
+- websocket
+
+Also there is a queues which could be used to build other queues:
+
+- readwriter
 
 ## Channel example
 

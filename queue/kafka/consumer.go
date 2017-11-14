@@ -70,16 +70,23 @@ func (c *Consumer) Close() error {
 
 func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
 	var (
-		config = c
-		stream = make(
-			chan result.Result,
-			config.ConsumerBufferSize,
-		)
+		config                 = c
+		bufSize                = config.ConsumerBufferSize
+		stream                 chan result.Result
 		client                 sarama.Client
 		kafkaConsumer          sarama.Consumer
 		kafkaPartitionConsumer sarama.PartitionConsumer
 		consumer               *Consumer
 		err                    error
+	)
+
+	if bufSize == 0 {
+		bufSize = 1
+	}
+
+	stream = make(
+		chan result.Result,
+		bufSize,
 	)
 
 	if config.Kafka == nil {

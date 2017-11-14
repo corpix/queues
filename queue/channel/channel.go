@@ -15,11 +15,11 @@ type Channel struct {
 }
 
 func (q *Channel) Producer() (producer.Producer, error) {
-	return NewProducer(q.channel, q.log)
+	return NewProducer(q.channel, q.config, q.log)
 }
 
 func (q *Channel) Consumer() (consumer.Consumer, error) {
-	return NewConsumer(q.channel, q.log)
+	return NewConsumer(q.channel, q.config, q.log)
 }
 
 func (q *Channel) Close() error {

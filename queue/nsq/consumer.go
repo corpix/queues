@@ -46,22 +46,28 @@ func (c *Consumer) Close() error {
 
 func NewConsumer(c Config, l loggers.Logger) (consumer.Consumer, error) {
 	var (
-		stream = make(
-			chan result.Result,
-			c.ConsumerBufferSize,
-		)
-		log = prefixwrapper.New(
+		bufSize     = c.ConsumerBufferSize
+		concurrency = c.Concurrency
+		stream      chan result.Result
+		log         = prefixwrapper.New(
 			"NsqConsumer: ",
 			l,
 		)
-		concurrency = c.Concurrency
 		nsqConsumer *nsq.Consumer
 		err         error
 	)
 
-	if concurrency <= 0 {
+	if bufSize == 0 {
+		bufSize = 1
+	}
+	if concurrency == 0 {
 		concurrency = 1
 	}
+
+	stream = make(
+		chan result.Result,
+		bufSize,
+	)
 
 	nsqConsumer, err = nsq.NewConsumer(
 		c.Topic,
@@ -78,7 +84,7 @@ func NewConsumer(c Config, l loggers.Logger) (consumer.Consumer, error) {
 
 	nsqConsumer.AddConcurrentHandlers(
 		NewHandler(consumerHandler(stream)),
-		concurrency,
+		int(concurrency),
 	)
 
 	err = nsqConsumer.ConnectToNSQD(c.Addr)
