@@ -3,8 +3,8 @@ package nsq
 import (
 	nsq "github.com/bitly/go-nsq"
 	"github.com/corpix/loggers"
+	"github.com/corpix/loggers/logger/prefixwrapper"
 
-	"github.com/cryptounicorns/queues/errors"
 	"github.com/cryptounicorns/queues/message"
 	"github.com/cryptounicorns/queues/producer"
 )
@@ -28,11 +28,11 @@ func (p *Producer) Close() error {
 }
 
 func NewProducer(c Config, l loggers.Logger) (producer.Producer, error) {
-	if l == nil {
-		return nil, errors.NewErrNilArgument(l)
-	}
-
 	var (
+		log = prefixwrapper.New(
+			"NsqProducer: ",
+			l,
+		)
 		nsqProducer *nsq.Producer
 		err         error
 	)
@@ -46,7 +46,7 @@ func NewProducer(c Config, l loggers.Logger) (producer.Producer, error) {
 	}
 
 	nsqProducer.SetLogger(
-		NewLogger(l),
+		NewLogger(log),
 		c.LogLevel,
 	)
 

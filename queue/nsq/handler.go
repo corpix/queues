@@ -9,7 +9,7 @@ import (
 type Handler func(m message.Message)
 
 func (h Handler) HandleMessage(m *nsq.Message) error {
-	h(message.Message(m.Body))
+	h(m.Body)
 
 	return nil
 }

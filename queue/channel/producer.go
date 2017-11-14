@@ -1,6 +1,8 @@
 package channel
 
 import (
+	"github.com/corpix/loggers"
+
 	"github.com/cryptounicorns/queues/message"
 )
 
@@ -17,7 +19,7 @@ func (p *Producer) Close() error {
 	return nil
 }
 
-func NewProducer(channel chan message.Message) (*Producer, error) {
+func NewProducer(channel chan message.Message, l loggers.Logger) (*Producer, error) {
 	return &Producer{
 		channel: channel,
 	}, nil

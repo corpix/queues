@@ -5,6 +5,6 @@ import (
 )
 
 type Consumer interface {
-	Consume() <-chan result.Result
+	Consume() (<-chan result.Result, error)
 	Close() error
 }

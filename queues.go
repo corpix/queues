@@ -32,37 +32,33 @@ type Config struct {
 	Channel channel.Config
 }
 
-// NewFromConfig creates new Queue from Config.
-func NewFromConfig(c Config, l loggers.Logger) (Queue, error) {
-	if l == nil {
-		return nil, errors.NewErrNilArgument(l)
-	}
-
+// New creates new Queue from Config.
+func New(c Config, l loggers.Logger) (Queue, error) {
 	switch strings.ToLower(c.Type) {
 	case KafkaQueueType:
-		return kafka.NewFromConfig(
+		return kafka.New(
 			c.Kafka,
 			prefixwrapper.New(
 				loggerPrefix(KafkaQueueType),
 				l,
 			),
-		)
+		), nil
 	case NsqQueueType:
-		return nsq.NewFromConfig(
+		return nsq.New(
 			c.Nsq,
 			prefixwrapper.New(
 				loggerPrefix(NsqQueueType),
 				l,
 			),
-		)
+		), nil
 	case ChannelQueueType:
-		return channel.NewFromConfig(
+		return channel.New(
 			c.Channel,
 			prefixwrapper.New(
 				loggerPrefix(ChannelQueueType),
 				l,
 			),
-		)
+		), nil
 	default:
 		return nil, errors.NewErrUnknownQueueType(c.Type)
 	}

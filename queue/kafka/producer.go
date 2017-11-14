@@ -4,7 +4,6 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/corpix/loggers"
 
-	"github.com/cryptounicorns/queues/errors"
 	"github.com/cryptounicorns/queues/message"
 )
 
@@ -12,11 +11,14 @@ type Producer struct {
 	topic         string
 	client        sarama.Client
 	kafkaProducer sarama.SyncProducer
-	log           loggers.Logger
 }
 
 func (p *Producer) Produce(m message.Message) error {
-	_, _, err := p.kafkaProducer.SendMessage(
+	var (
+		err error
+	)
+
+	_, _, err = p.kafkaProducer.SendMessage(
 		&sarama.ProducerMessage{
 			Topic: p.topic,
 			Value: sarama.StringEncoder(m),
@@ -36,22 +38,14 @@ func (p *Producer) Close() error {
 
 	err = p.kafkaProducer.Close()
 	if err != nil {
+		p.client.Close()
 		return err
 	}
 
-	err = p.client.Close()
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return p.client.Close()
 }
 
 func NewProducer(c Config, l loggers.Logger) (*Producer, error) {
-	if l == nil {
-		return nil, errors.NewErrNilArgument(l)
-	}
-
 	var (
 		client        sarama.Client
 		kafkaProducer sarama.SyncProducer
@@ -80,6 +74,5 @@ func NewProducer(c Config, l loggers.Logger) (*Producer, error) {
 		topic:         c.Topic,
 		client:        client,
 		kafkaProducer: kafkaProducer,
-		log:           l,
 	}, nil
 }

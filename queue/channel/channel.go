@@ -4,7 +4,6 @@ import (
 	"github.com/corpix/loggers"
 
 	"github.com/cryptounicorns/queues/consumer"
-	"github.com/cryptounicorns/queues/errors"
 	"github.com/cryptounicorns/queues/message"
 	"github.com/cryptounicorns/queues/producer"
 )
@@ -16,11 +15,11 @@ type Channel struct {
 }
 
 func (q *Channel) Producer() (producer.Producer, error) {
-	return NewProducer(q.channel)
+	return NewProducer(q.channel, q.log)
 }
 
 func (q *Channel) Consumer() (consumer.Consumer, error) {
-	return NewConsumer(q.channel)
+	return NewConsumer(q.channel, q.log)
 }
 
 func (q *Channel) Close() error {
@@ -29,11 +28,7 @@ func (q *Channel) Close() error {
 	return nil
 }
 
-func NewFromConfig(c Config, l loggers.Logger) (*Channel, error) {
-	if l == nil {
-		return nil, errors.NewErrNilArgument(l)
-	}
-
+func New(c Config, l loggers.Logger) *Channel {
 	return &Channel{
 		config: c,
 		log:    l,
@@ -41,5 +36,5 @@ func NewFromConfig(c Config, l loggers.Logger) (*Channel, error) {
 			chan message.Message,
 			c.Capacity,
 		),
-	}, nil
+	}
 }

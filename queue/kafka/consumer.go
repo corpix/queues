@@ -4,24 +4,19 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/corpix/loggers"
 
-	"github.com/cryptounicorns/queues/errors"
 	"github.com/cryptounicorns/queues/result"
 )
 
 type Consumer struct {
+	config                 Config
 	client                 sarama.Client
 	kafkaConsumer          sarama.Consumer
 	kafkaPartitionConsumer sarama.PartitionConsumer
-	log                    loggers.Logger
-	channel                chan result.Result
-	done                   chan bool
+	stream                 chan result.Result
+	done                   chan struct{}
 }
 
-func (c *Consumer) Consume() <-chan result.Result {
-	return c.channel
-}
-
-func (c *Consumer) consume() {
+func consumerWorker(c *Consumer) {
 	var (
 		msg *sarama.ConsumerMessage
 		err error
@@ -32,12 +27,12 @@ func (c *Consumer) consume() {
 		case <-c.done:
 			return
 		case err = <-c.kafkaPartitionConsumer.Errors():
-			c.channel <- result.Result{
+			c.stream <- result.Result{
 				Value: nil,
 				Err:   err,
 			}
 		case msg = <-c.kafkaPartitionConsumer.Messages():
-			c.channel <- result.Result{
+			c.stream <- result.Result{
 				Value: msg.Value,
 				Err:   nil,
 			}
@@ -45,39 +40,41 @@ func (c *Consumer) consume() {
 	}
 }
 
+func (c *Consumer) Consume() (<-chan result.Result, error) {
+	return c.stream, nil
+}
+
 func (c *Consumer) Close() error {
 	var (
 		err error
 	)
 
+	defer close(c.done)
+	defer close(c.stream)
+
 	err = c.kafkaPartitionConsumer.Close()
 	if err != nil {
+		c.kafkaConsumer.Close()
+		c.client.Close()
 		return err
 	}
 
 	err = c.kafkaConsumer.Close()
 	if err != nil {
+		c.client.Close()
 		return err
 	}
 
-	err = c.client.Close()
-	if err != nil {
-		return err
-	}
-
-	close(c.done)
-	// XXX: c.channel will be GC'ed, not closing it
-	// to mitigate write to closed channel in case of race.
-
-	return nil
+	return c.client.Close()
 }
 
 func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
-	if l == nil {
-		return nil, errors.NewErrNilArgument(l)
-	}
-
 	var (
+		config = c
+		stream = make(
+			chan result.Result,
+			config.ConsumerBufferSize,
+		)
 		client                 sarama.Client
 		kafkaConsumer          sarama.Consumer
 		kafkaPartitionConsumer sarama.PartitionConsumer
@@ -85,48 +82,46 @@ func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
 		err                    error
 	)
 
-	if c.Kafka == nil {
-		c.Kafka = sarama.NewConfig()
-		c.Kafka.Consumer.Return.Errors = true
+	if config.Kafka == nil {
+		config.Kafka = sarama.NewConfig()
+		config.Kafka.Consumer.Return.Errors = true
 	}
 
 	client, err = sarama.NewClient(
-		c.Addrs,
-		c.Kafka,
+		config.Addrs,
+		config.Kafka,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	kafkaConsumer, err = sarama.NewConsumerFromClient(
-		client,
-	)
+	kafkaConsumer, err = sarama.NewConsumerFromClient(client)
 	if err != nil {
+		client.Close()
 		return nil, err
 	}
 
 	kafkaPartitionConsumer, err = kafkaConsumer.ConsumePartition(
-		c.Topic,
+		config.Topic,
 		0,
 		sarama.OffsetOldest,
 	)
 	if err != nil {
+		kafkaPartitionConsumer.Close()
+		client.Close()
 		return nil, err
 	}
 
 	consumer = &Consumer{
+		config:                 c,
 		client:                 client,
 		kafkaConsumer:          kafkaConsumer,
 		kafkaPartitionConsumer: kafkaPartitionConsumer,
-		log: l,
-		channel: make(
-			chan result.Result,
-			c.ConsumerBufferSize,
-		),
-		done: make(chan bool),
+		stream:                 stream,
+		done:                   make(chan struct{}),
 	}
 
-	go consumer.consume()
+	go consumerWorker(consumer)
 
 	return consumer, nil
 }

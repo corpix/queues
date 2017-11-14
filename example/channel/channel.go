@@ -10,12 +10,13 @@ import (
 	"github.com/cryptounicorns/queues"
 	"github.com/cryptounicorns/queues/message"
 	"github.com/cryptounicorns/queues/queue/channel"
+	"github.com/cryptounicorns/queues/result"
 )
 
 func main() {
 	log := logger.New(logrus.New())
 
-	q, err := queues.NewFromConfig(
+	q, err := queues.New(
 		queues.Config{
 			Type: queues.ChannelQueueType,
 			Channel: channel.Config{
@@ -42,7 +43,17 @@ func main() {
 	defer p.Close()
 
 	go func() {
-		for r := range c.Consume() {
+		var (
+			stream <-chan result.Result
+			err    error
+		)
+
+		stream, err = c.Consume()
+		if err != nil {
+			panic(err)
+		}
+
+		for r := range stream {
 			switch {
 			case r.Err != nil:
 				panic(r.Err)

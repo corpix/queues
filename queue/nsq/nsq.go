@@ -5,7 +5,6 @@ import (
 	"github.com/corpix/loggers"
 
 	"github.com/cryptounicorns/queues/consumer"
-	"github.com/cryptounicorns/queues/errors"
 	"github.com/cryptounicorns/queues/producer"
 )
 
@@ -24,11 +23,7 @@ func (q *Nsq) Consumer() (consumer.Consumer, error) {
 
 func (q *Nsq) Close() error { return nil }
 
-func NewFromConfig(c Config, l loggers.Logger) (*Nsq, error) {
-	if l == nil {
-		return nil, errors.NewErrNilArgument(l)
-	}
-
+func New(c Config, l loggers.Logger) *Nsq {
 	if c.Nsq == nil {
 		c.Nsq = nsq.NewConfig()
 	}
@@ -36,5 +31,5 @@ func NewFromConfig(c Config, l loggers.Logger) (*Nsq, error) {
 	return &Nsq{
 		config: c,
 		log:    l,
-	}, nil
+	}
 }

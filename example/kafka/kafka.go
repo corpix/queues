@@ -10,13 +10,14 @@ import (
 	"github.com/cryptounicorns/queues"
 	"github.com/cryptounicorns/queues/message"
 	"github.com/cryptounicorns/queues/queue/kafka"
+	"github.com/cryptounicorns/queues/result"
 )
 
 func main() {
 	originalLogger := logrus.New()
 	log := logger.New(originalLogger)
 
-	q, err := queues.NewFromConfig(
+	q, err := queues.New(
 		queues.Config{
 			Type: queues.KafkaQueueType,
 			Kafka: kafka.Config{
@@ -44,8 +45,23 @@ func main() {
 	defer p.Close()
 
 	go func() {
-		for m := range c.Consume() {
-			log.Printf("Consumed: %s", m)
+		var (
+			stream <-chan result.Result
+			err    error
+		)
+
+		stream, err = c.Consume()
+		if err != nil {
+			panic(err)
+		}
+
+		for r := range stream {
+			switch {
+			case r.Err != nil:
+				panic(r.Err)
+			default:
+				log.Printf("Consumed: %s", r.Value)
+			}
 		}
 	}()
 

@@ -1,45 +1,53 @@
 package channel
 
 import (
+	"github.com/corpix/loggers"
+
 	"github.com/cryptounicorns/queues/message"
 	"github.com/cryptounicorns/queues/result"
 )
 
 type Consumer struct {
 	channel chan message.Message
+	stream  chan result.Result
 	done    chan struct{}
 }
 
-func (c *Consumer) Consume() <-chan result.Result {
-	var (
-		stream = make(chan result.Result)
-	)
-
-	go func() {
-		for {
-			select {
-			case <-c.done:
-				return
-			case m := <-c.channel:
-				stream <- result.Result{
-					Value: m,
-					Err:   nil,
-				}
+func consumerWorker(c *Consumer) {
+	for {
+		select {
+		case <-c.done:
+			return
+		case m := <-c.channel:
+			c.stream <- result.Result{
+				Value: m,
+				Err:   nil,
 			}
 		}
-	}()
+	}
+}
 
-	return stream
+func (c *Consumer) Consume() (<-chan result.Result, error) {
+	return c.stream, nil
 }
 
 func (c *Consumer) Close() error {
-	close(c.done)
+	defer close(c.done)
+	defer close(c.stream)
+
 	return nil
 }
 
-func NewConsumer(channel chan message.Message) (*Consumer, error) {
-	return &Consumer{
-		channel: channel,
-		done:    make(chan struct{}),
-	}, nil
+func NewConsumer(channel chan message.Message, l loggers.Logger) (*Consumer, error) {
+	var (
+		consumer = &Consumer{
+			channel: channel,
+			stream:  make(chan result.Result),
+			done:    make(chan struct{}),
+		}
+	)
+
+	go consumerWorker(consumer)
+
+	return consumer, nil
 }
