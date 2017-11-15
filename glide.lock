@@ -1,5 +1,5 @@
-hash: 71e60349d1e9372c36e63d8e91b8a67793cfff37e6f89949a262ebf53b4552ba
-updated: 2017-11-13T21:00:33.794040096Z
+hash: fa8fc3fb31160d6cd26768b283d325bb5085b25e9079c38e98eafa21115d18b7
+updated: 2017-11-15T21:51:01.183913645Z
 imports:
 - name: github.com/bitly/go-nsq
   version: 8c1ff52dff6fd3ecc19c418649bc643b18e862fc
@@ -8,7 +8,6 @@ imports:
   subpackages:
   - logger/logrus
   - logger/prefixwrapper
-  - target/logrus
 - name: github.com/davecgh/go-spew
   version: ecdeabc65495df2dec95d7c4a4c3e021903035e5
   subpackages:
@@ -21,8 +20,17 @@ imports:
   version: bb955e01b9346ac19dc29eb16586c90ded99a98c
 - name: github.com/eapache/queue
   version: 44cc805cf13205b55f69e14bcb69867d1ae92f98
-- name: github.com/fatih/structs
-  version: f5faa72e73092639913f5833b75e1ac1d6bc7a63
+- name: github.com/gobwas/httphead
+  version: 01c9b01b368a438f615030bbbd5e4f9e0023e15c
+- name: github.com/gobwas/pool
+  version: 32dbaa12caca20fad12253c30591227e04f62cdd
+  subpackages:
+  - pbufio
+  - pbytes
+- name: github.com/gobwas/ws
+  version: 915eed3240022c5265584c55032ef1b8c8f84168
+  subpackages:
+  - wsutil
 - name: github.com/golang/snappy
   version: 553a641470496b2327abcac10b36396bd98e45c9
 - name: github.com/pierrec/lz4
@@ -38,7 +46,7 @@ imports:
 - name: github.com/sirupsen/logrus
   version: 89742aefa4b206dcf400792f3bd35b542998eb3b
 - name: golang.org/x/crypto
-  version: 6a293f2d4b14b8e6d3f0539e383f6d0d30fce3fd
+  version: 9f005a07e0d31d45e6656d241bb5c0f2efd4bc94
   subpackages:
   - ssh/terminal
 - name: golang.org/x/sys

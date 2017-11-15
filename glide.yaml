@@ -4,6 +4,9 @@ import:
 - package: github.com/bitly/go-nsq
 - package: github.com/corpix/loggers
   subpackages:
-  - target/logrus
-- package: github.com/fatih/structs
+  - logger/logrus
+  - logger/prefixwrapper
+- package: github.com/gobwas/ws
+  subpackages:
+  - wsutil
 - package: github.com/sirupsen/logrus
