@@ -23,7 +23,6 @@ func (p *Producer) Close() error {
 
 	err = p.connection.Close()
 	if err != nil {
-		p.Producer.Close()
 		return err
 	}
 

@@ -38,7 +38,6 @@ func (p *Producer) Close() error {
 
 	err = p.kafkaProducer.Close()
 	if err != nil {
-		p.client.Close()
 		return err
 	}
 

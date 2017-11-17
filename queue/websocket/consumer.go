@@ -23,7 +23,6 @@ func (c *Consumer) Close() error {
 
 	err = c.connection.Close()
 	if err != nil {
-		c.Consumer.Close()
 		return err
 	}
 

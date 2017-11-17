@@ -54,14 +54,11 @@ func (c *Consumer) Close() error {
 
 	err = c.kafkaPartitionConsumer.Close()
 	if err != nil {
-		c.kafkaConsumer.Close()
-		c.client.Close()
 		return err
 	}
 
 	err = c.kafkaConsumer.Close()
 	if err != nil {
-		c.client.Close()
 		return err
 	}
 
@@ -104,7 +101,6 @@ func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
 
 	kafkaConsumer, err = sarama.NewConsumerFromClient(client)
 	if err != nil {
-		client.Close()
 		return nil, err
 	}
 
@@ -114,8 +110,6 @@ func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
 		sarama.OffsetOldest,
 	)
 	if err != nil {
-		kafkaPartitionConsumer.Close()
-		client.Close()
 		return nil, err
 	}
 
