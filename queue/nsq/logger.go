@@ -8,11 +8,34 @@ import (
 )
 
 const (
-	LogLevelDebug   = nsq.LogLevelDebug
-	LogLevelInfo    = nsq.LogLevelInfo
-	LogLevelError   = nsq.LogLevelError
-	LogLevelWarning = nsq.LogLevelWarning
+	LogLevelDebug   = LogLevel("debug")
+	LogLevelInfo    = LogLevel("info")
+	LogLevelError   = LogLevel("error")
+	LogLevelWarning = LogLevel("warning")
 )
+
+var (
+	NsqLogLevel = map[LogLevel]nsq.LogLevel{
+		LogLevelDebug:   nsq.LogLevelDebug,
+		LogLevelInfo:    nsq.LogLevelInfo,
+		LogLevelError:   nsq.LogLevelError,
+		LogLevelWarning: nsq.LogLevelWarning,
+	}
+)
+
+type LogLevel string
+
+func (l LogLevel) Nsq() nsq.LogLevel {
+	var (
+		nl nsq.LogLevel
+		ok bool
+	)
+	nl, ok = NsqLogLevel[l]
+	if !ok {
+		return nsq.LogLevelInfo
+	}
+	return nl
+}
 
 type Logger struct {
 	loggers.Logger
@@ -27,17 +50,17 @@ func NewLogger(l loggers.Logger) *Logger {
 	return &Logger{l}
 }
 
-func NewLogLevelFromLogrus(lv logrus.Level) nsq.LogLevel {
+func NewLogLevelFromLogrus(lv logrus.Level) LogLevel {
 	switch lv {
 	case logrus.DebugLevel:
-		return nsq.LogLevelDebug
+		return LogLevelDebug
 	case logrus.InfoLevel:
-		return nsq.LogLevelInfo
+		return LogLevelInfo
 	case logrus.ErrorLevel:
-		return nsq.LogLevelError
+		return LogLevelError
 	case logrus.WarnLevel:
-		return nsq.LogLevelWarning
+		return LogLevelWarning
 	default:
-		return nsq.LogLevelInfo
+		return LogLevelInfo
 	}
 }

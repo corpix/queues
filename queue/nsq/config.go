@@ -10,6 +10,6 @@ type Config struct {
 	Channel            string
 	Concurrency        uint
 	ConsumerBufferSize uint
-	LogLevel           nsq.LogLevel
+	LogLevel           LogLevel
 	Nsq                *nsq.Config
 }

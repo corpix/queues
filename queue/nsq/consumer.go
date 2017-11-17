@@ -79,7 +79,7 @@ func NewConsumer(c Config, l loggers.Logger) (consumer.Consumer, error) {
 	}
 	nsqConsumer.SetLogger(
 		NewLogger(log),
-		c.LogLevel,
+		c.LogLevel.Nsq(),
 	)
 
 	nsqConsumer.AddConcurrentHandlers(

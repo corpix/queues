@@ -47,7 +47,7 @@ func NewProducer(c Config, l loggers.Logger) (producer.Producer, error) {
 
 	nsqProducer.SetLogger(
 		NewLogger(log),
-		c.LogLevel,
+		c.LogLevel.Nsq(),
 	)
 
 	return &Producer{
