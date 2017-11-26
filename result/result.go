@@ -10,3 +10,11 @@ type Result struct {
 	Value message.Message
 	Err   error
 }
+
+type Generic struct {
+	// This drives me to the point of a murder.
+	// Hey, gophers, you still don't need generics?
+	// Eat this.
+	Value interface{}
+	Err   error
+}
