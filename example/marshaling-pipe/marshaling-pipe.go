@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"sync"
 	"time"
 
@@ -10,9 +11,9 @@ import (
 
 	"github.com/cryptounicorns/queues"
 	"github.com/cryptounicorns/queues/consumer"
+	"github.com/cryptounicorns/queues/message"
 	"github.com/cryptounicorns/queues/producer"
 	"github.com/cryptounicorns/queues/queue/channel"
-	"github.com/cryptounicorns/queues/result"
 )
 
 type Message struct {
@@ -60,22 +61,28 @@ func main() {
 
 	go func() {
 		var (
-			stream <-chan result.Generic
-			err    error
+			err error
 		)
 
-		stream, err = mc.Consume()
+		err = consumer.PipeToWriterWith(
+			mc,
+			func(v interface{}) (message.Message, error) {
+				var (
+					buf []byte
+					err error
+				)
+
+				buf, err = format.Marshal(v)
+				if err != nil {
+					return nil, err
+				}
+
+				return buf, nil
+			},
+			log,
+		)
 		if err != nil {
 			log.Fatal(err)
-		}
-
-		for r := range stream {
-			switch {
-			case r.Err != nil:
-				log.Fatal(r.Err)
-			default:
-				log.Printf("Consumed: %+v of type %T", r.Value, r.Value)
-			}
 		}
 	}()
 
@@ -83,17 +90,34 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		n := 0
-		message := Message{"hello"}
+
+		var (
+			n   = 0
+			err error
+		)
 
 		for {
 			if n >= 5 {
 				break
 			}
 
-			log.Printf("Producing: %+v of type %T", message, message)
+			err = producer.PipeFromReaderWith(
+				bytes.NewBuffer([]byte(`{"text":"hello"}`)),
+				func(buf []byte) (interface{}, error) {
+					var (
+						m   = Message{}
+						err error
+					)
 
-			err := mp.Produce(message)
+					err = format.Unmarshal(buf, &m)
+					if err != nil {
+						return nil, err
+					}
+
+					return m, nil
+				},
+				mp,
+			)
 			if err != nil {
 				log.Fatal(err)
 			}
