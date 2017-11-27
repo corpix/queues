@@ -37,7 +37,7 @@ func PipeToWriter(c Consumer, w io.Writer) error {
 	return nil
 }
 
-func PipeToWriterWith(c GenericConsumer, fn PrepareForWriterFn, w io.Writer) error {
+func PipeToWriterWith(c Generic, fn PrepareForWriterFn, w io.Writer) error {
 	var (
 		stream <-chan result.Generic
 		buf    message.Message
@@ -68,7 +68,7 @@ func PipeToWriterWith(c GenericConsumer, fn PrepareForWriterFn, w io.Writer) err
 	return nil
 }
 
-func PipeToStoreWith(c GenericConsumer, fn PrepareForStoreFn, s stores.Store) error {
+func PipeToStoreWith(c Generic, fn PrepareForStoreFn, s stores.Store) error {
 	var (
 		stream <-chan result.Generic
 		k      string

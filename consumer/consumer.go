@@ -9,7 +9,7 @@ type Consumer interface {
 	Close() error
 }
 
-type GenericConsumer interface {
+type Generic interface {
 	Consume() (<-chan result.Generic, error)
 	Close() error
 }
