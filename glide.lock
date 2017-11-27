@@ -1,13 +1,21 @@
-hash: fa8fc3fb31160d6cd26768b283d325bb5085b25e9079c38e98eafa21115d18b7
-updated: 2017-11-15T21:51:01.183913645Z
+hash: 561821b4ca07c7ec7715e9d6fe1231e014e3b24dca504c10cf6dbc1f69598c12
+updated: 2017-11-27T20:21:37.262271618Z
 imports:
 - name: github.com/bitly/go-nsq
   version: 8c1ff52dff6fd3ecc19c418649bc643b18e862fc
+- name: github.com/corpix/formats
+  version: 51b943f6b7f3875db4d193665b6c968d96c3198b
 - name: github.com/corpix/loggers
   version: 69c4a7d3244f0509086d4080e8898376aeb95e09
   subpackages:
   - logger/logrus
   - logger/prefixwrapper
+- name: github.com/corpix/stores
+  version: 1b2932856ef2e5dddf0fb2c61b5bdd07994ea1ef
+  subpackages:
+  - errors
+  - store/memory
+  - store/memoryttl
 - name: github.com/davecgh/go-spew
   version: ecdeabc65495df2dec95d7c4a4c3e021903035e5
   subpackages:
@@ -20,6 +28,8 @@ imports:
   version: bb955e01b9346ac19dc29eb16586c90ded99a98c
 - name: github.com/eapache/queue
   version: 44cc805cf13205b55f69e14bcb69867d1ae92f98
+- name: github.com/fatih/structs
+  version: f5faa72e73092639913f5833b75e1ac1d6bc7a63
 - name: github.com/gobwas/httphead
   version: 01c9b01b368a438f615030bbbd5e4f9e0023e15c
 - name: github.com/gobwas/pool
@@ -33,6 +43,12 @@ imports:
   - wsutil
 - name: github.com/golang/snappy
   version: 553a641470496b2327abcac10b36396bd98e45c9
+- name: github.com/naoina/go-stringutil
+  version: 6b638e95a32d0c1131db0e7fe83775cbea4a0d0b
+- name: github.com/naoina/toml
+  version: 9fafd69674167c06933b1787ae235618431ce87f
+  subpackages:
+  - ast
 - name: github.com/pierrec/lz4
   version: 08c27939df1bd95e881e2c2367a749964ad1fceb
 - name: github.com/pierrec/xxHash
@@ -54,4 +70,6 @@ imports:
   subpackages:
   - unix
   - windows
+- name: gopkg.in/yaml.v2
+  version: 287cf08546ab5e7e37d55a84f7ed3fd1db036de5
 testImports: []
