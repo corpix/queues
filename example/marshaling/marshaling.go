@@ -20,14 +20,24 @@ type Message struct {
 }
 
 func main() {
-	log := logger.New(logrus.New())
+	var (
+		log = logger.New(logrus.New())
+		wg  = &sync.WaitGroup{}
+		f   formats.Format
+		q   queues.Queue
+		c   consumer.Consumer
+		mc  consumer.Generic
+		mp  producer.Generic
+		p   producer.Producer
+		err error
+	)
 
-	format, err := formats.New(formats.JSON)
+	f, err = formats.New(formats.JSON)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	q, err := queues.New(
+	q, err = queues.New(
 		queues.Config{
 			Type: queues.ChannelQueueType,
 			Channel: channel.Config{
@@ -41,22 +51,22 @@ func main() {
 	}
 	defer q.Close()
 
-	c, err := q.Consumer()
+	c, err = q.Consumer()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer c.Close()
 
-	mc := consumer.NewUnmarshal(c, Message{}, format)
+	mc = consumer.NewUnmarshal(c, Message{}, f)
 	defer mc.Close()
 
-	p, err := q.Producer()
+	p, err = q.Producer()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer p.Close()
 
-	mp := producer.NewMarshal(p, format)
+	mp = producer.NewMarshal(p, f)
 
 	go func() {
 		var (
@@ -79,12 +89,14 @@ func main() {
 		}
 	}()
 
-	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		n := 0
-		message := Message{"hello"}
+		var (
+			message = Message{"hello"}
+			n       = 0
+			err     error
+		)
 
 		for {
 			if n >= 5 {
@@ -93,7 +105,7 @@ func main() {
 
 			log.Printf("Producing: %+v of type %T", message, message)
 
-			err := mp.Produce(message)
+			err = mp.Produce(message)
 			if err != nil {
 				log.Fatal(err)
 			}

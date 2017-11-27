@@ -8,7 +8,10 @@ import (
 	logger "github.com/corpix/loggers/logger/logrus"
 	"github.com/sirupsen/logrus"
 
+	"github.com/cryptounicorns/queues"
+	"github.com/cryptounicorns/queues/consumer"
 	"github.com/cryptounicorns/queues/message"
+	"github.com/cryptounicorns/queues/producer"
 	"github.com/cryptounicorns/queues/queue/readwriter"
 	"github.com/cryptounicorns/queues/result"
 )
@@ -32,23 +35,27 @@ func (p *Proxy) Read(buf []byte) (int, error) {
 func main() {
 	var (
 		log = logger.New(logrus.New())
+		wg  = &sync.WaitGroup{}
+		q   queues.Queue
+		c   consumer.Consumer
+		p   producer.Producer
 		err error
 	)
 
-	q := readwriter.New(
+	q = readwriter.New(
 		&Proxy{stream: make(chan []byte)},
 		readwriter.Config{},
 		log,
 	)
 	defer q.Close()
 
-	c, err := q.Consumer()
+	c, err = q.Consumer()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer c.Close()
 
-	p, err := q.Producer()
+	p, err = q.Producer()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,12 +82,15 @@ func main() {
 		}
 	}()
 
-	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		n := 0
-		message := message.Message("hello")
+
+		var (
+			message = message.Message("hello")
+			n       = 0
+			err     error
+		)
 
 		for {
 			if n >= 5 {
@@ -89,7 +99,7 @@ func main() {
 
 			log.Printf("Producing: %s", message)
 
-			err := p.Produce(message)
+			err = p.Produce(message)
 			if err != nil {
 				log.Fatal(err)
 			}
