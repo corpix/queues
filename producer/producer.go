@@ -9,7 +9,7 @@ type Producer interface {
 	Close() error
 }
 
-type GenericProducer interface {
+type Generic interface {
 	Produce(m interface{}) error
 	Close() error
 }

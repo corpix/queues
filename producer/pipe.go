@@ -23,7 +23,7 @@ func PipeFromReader(r io.Reader, p Producer) error {
 	return p.Produce(buf)
 }
 
-func PipeFromReaderWith(r io.Reader, fn PrepareForProducerFn, p GenericProducer) error {
+func PipeFromReaderWith(r io.Reader, fn PrepareForProducerFn, p Generic) error {
 	var (
 		m   interface{}
 		buf []byte
