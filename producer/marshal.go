@@ -26,7 +26,7 @@ func (p *Marshal) Produce(v interface{}) error {
 }
 
 func (p *Marshal) Close() error {
-	return p.producer.Close()
+	return nil
 }
 
 func NewMarshal(pr Producer, f formats.Format) *Marshal {

@@ -85,6 +85,7 @@ func main() {
 	defer p.Close()
 
 	mp = producer.NewMarshal(p, f)
+	defer mp.Close()
 
 	go func() {
 		var (
