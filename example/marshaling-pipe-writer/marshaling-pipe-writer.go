@@ -78,6 +78,10 @@ func main() {
 		err = consumer.PipeToWriterWith(
 			mc,
 			func(v interface{}) (message.Message, error) {
+				// XXX: It is not adviced to do side-effects here
+				// but we need this wg.Done() to show you a buffer contents :)
+				defer wg.Done()
+
 				var (
 					buf []byte
 					err error
@@ -110,6 +114,8 @@ func main() {
 			if n >= 5 {
 				break
 			}
+
+			wg.Add(1)
 
 			err = producer.PipeFromReaderWith(
 				bytes.NewBuffer([]byte(`{"text":"hello"}`)),
