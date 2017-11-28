@@ -44,6 +44,11 @@ type Config struct {
 	Websocket websocket.Config
 }
 
+type GenericConfig struct {
+	Format string
+	Queue  Config
+}
+
 // New creates new Queue from Config.
 func New(c Config, l loggers.Logger) (Queue, error) {
 	switch strings.ToLower(c.Type) {
