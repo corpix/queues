@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/sha1"
 	"encoding/hex"
 	"sync"
@@ -33,15 +34,20 @@ var (
 
 func main() {
 	var (
-		log = logger.New(logrus.New())
-		wg  = &sync.WaitGroup{}
-		f   formats.Format
-		s   stores.Store
-		q   queues.Queue
-		p   producer.Producer
-		sm  map[string]interface{}
-		err error
+		log    = logger.New(logrus.New())
+		wg     = &sync.WaitGroup{}
+		ctx    context.Context
+		cancel context.CancelFunc
+		f      formats.Format
+		s      stores.Store
+		q      queues.Queue
+		p      producer.Producer
+		sm     map[string]interface{}
+		err    error
 	)
+
+	ctx, cancel = context.WithCancel(context.Background())
+	defer cancel()
 
 	f, err = formats.New(format)
 	if err != nil {
@@ -68,6 +74,7 @@ func main() {
 				Format: format,
 				Queue:  queue,
 			},
+			ctx,
 			func(v interface{}) (string, interface{}, error) {
 				// XXX: It is not adviced to do side-effects here
 				// but we need this wg.Done() to show you a store contents :)

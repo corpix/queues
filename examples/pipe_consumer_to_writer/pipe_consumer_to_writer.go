@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"sync"
 
 	"github.com/corpix/formats"
@@ -29,14 +30,19 @@ var (
 
 func main() {
 	var (
-		log = logger.New(logrus.New())
-		wg  = &sync.WaitGroup{}
-		w   = bytes.NewBuffer(nil)
-		f   formats.Format
-		q   queues.Queue
-		p   producer.Producer
-		err error
+		log    = logger.New(logrus.New())
+		wg     = &sync.WaitGroup{}
+		w      = bytes.NewBuffer(nil)
+		ctx    context.Context
+		cancel context.CancelFunc
+		f      formats.Format
+		q      queues.Queue
+		p      producer.Producer
+		err    error
 	)
+
+	ctx, cancel = context.WithCancel(context.Background())
+	defer cancel()
 
 	f, err = formats.New(format)
 	if err != nil {
@@ -52,6 +58,7 @@ func main() {
 				Format: format,
 				Queue:  queue,
 			},
+			ctx,
 			func(v interface{}) ([]byte, error) {
 				var (
 					buf []byte
