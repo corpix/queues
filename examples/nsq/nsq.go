@@ -30,9 +30,8 @@ func main() {
 		queues.Config{
 			Type: queues.NsqQueueType,
 			Nsq: nsq.Config{
-				Addr:    "127.0.0.1:4150",
-				Topic:   "nsq-example",
-				Channel: "queues-nsq-example",
+				Addr:  "127.0.0.1:4150",
+				Topic: "nsq-example",
 				LogLevel: nsq.NewLogLevelFromLogrus(
 					originalLogger.Level,
 				),
