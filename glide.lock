@@ -1,21 +1,27 @@
-hash: 561821b4ca07c7ec7715e9d6fe1231e014e3b24dca504c10cf6dbc1f69598c12
-updated: 2017-11-27T20:21:37.262271618Z
+hash: 34777643e9bbe546664de44d06cae276fe2f89b603d737da603e4feaaac5fe46
+updated: 2017-11-29T04:51:34.091668487Z
 imports:
 - name: github.com/bitly/go-nsq
   version: 8c1ff52dff6fd3ecc19c418649bc643b18e862fc
+- name: github.com/corpix/effects
+  version: 0d818ebf2da05939c8247de5b84f44a2428c032e
+  subpackages:
+  - closer
 - name: github.com/corpix/formats
-  version: 51b943f6b7f3875db4d193665b6c968d96c3198b
+  version: 9a60a2b6efca3a5264cfbece220df11e8a2813f6
 - name: github.com/corpix/loggers
   version: 69c4a7d3244f0509086d4080e8898376aeb95e09
   subpackages:
   - logger/logrus
   - logger/prefixwrapper
 - name: github.com/corpix/stores
-  version: 1b2932856ef2e5dddf0fb2c61b5bdd07994ea1ef
+  version: d143bb7ecfa91dcbea6e422d2270c6bdd4d9d25b
   subpackages:
   - errors
   - store/memory
   - store/memoryttl
+- name: github.com/corpix/time
+  version: 9adb218ff5319d3f3e3d5a44fe0cb5d4880762f4
 - name: github.com/davecgh/go-spew
   version: ecdeabc65495df2dec95d7c4a4c3e021903035e5
   subpackages:
@@ -56,17 +62,17 @@ imports:
   subpackages:
   - xxHash32
 - name: github.com/rcrowley/go-metrics
-  version: 1f30fe9094a513ce4c700b9a54458bbb0c96996c
+  version: e181e095bae94582363434144c61a9653aff6e50
 - name: github.com/Shopify/sarama
-  version: 240fd146ce68bcafb034cc5dc977229ffbafa8ea
+  version: a709f2d5ca2082723bb8007b9e45a0690c083b6a
 - name: github.com/sirupsen/logrus
-  version: 89742aefa4b206dcf400792f3bd35b542998eb3b
+  version: 95cd2b9c79aa5e72ab0bc69b7ccc2be15bf850f6
 - name: golang.org/x/crypto
-  version: 9f005a07e0d31d45e6656d241bb5c0f2efd4bc94
+  version: 94eea52f7b742c7cbe0b03b22f0c4c8631ece122
   subpackages:
   - ssh/terminal
 - name: golang.org/x/sys
-  version: 665f6529cca930e27b831a0d1dafffbe1c172924
+  version: 1006bb3484c92b19a5b6612452e038b554fadb9c
   subpackages:
   - unix
   - windows
