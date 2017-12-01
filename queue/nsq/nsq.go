@@ -12,6 +12,10 @@ import (
 	"github.com/cryptounicorns/queues/producer"
 )
 
+const (
+	Name = "nsq"
+)
+
 var (
 	random *rand.Rand
 )

@@ -39,7 +39,7 @@ func main() {
 
 	q, err = queues.New(
 		queues.Config{
-			Type: queues.ChannelQueueType,
+			Type: channel.Name,
 			Channel: channel.Config{
 				Capacity: 128,
 			},

@@ -22,6 +22,17 @@ func PipeConsumerToWriterWith(c GenericConfig, ctx context.Context, fn consumer.
 		err     error
 	)
 
+	go func() {
+		select {
+		case <-ctx.Done():
+			err := closers.Close()
+			if err != nil {
+				l.Error(err)
+			}
+			return
+		}
+	}()
+
 	f, err = formats.New(c.Format)
 	if err != nil {
 		return err
@@ -45,17 +56,6 @@ func PipeConsumerToWriterWith(c GenericConfig, ctx context.Context, fn consumer.
 		f,
 	)
 	closers = append(closers, mcr)
-
-	go func() {
-		select {
-		case <-ctx.Done():
-			err := closers.Close()
-			if err != nil {
-				l.Error(err)
-			}
-			return
-		}
-	}()
 
 	return consumer.PipeToWriterWith(mcr, fn, w)
 }
@@ -70,6 +70,17 @@ func PipeConsumerToStoreWith(c GenericConfig, ctx context.Context, fn consumer.P
 		err     error
 	)
 
+	go func() {
+		select {
+		case <-ctx.Done():
+			err := closers.Close()
+			if err != nil {
+				l.Error(err)
+			}
+			return
+		}
+	}()
+
 	f, err = formats.New(c.Format)
 	if err != nil {
 		return err
@@ -93,17 +104,6 @@ func PipeConsumerToStoreWith(c GenericConfig, ctx context.Context, fn consumer.P
 		f,
 	)
 	closers = append(closers, mcr)
-
-	go func() {
-		select {
-		case <-ctx.Done():
-			err := closers.Close()
-			if err != nil {
-				l.Error(err)
-			}
-			return
-		}
-	}()
 
 	return consumer.PipeToStoreWith(mcr, fn, s)
 }

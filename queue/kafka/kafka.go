@@ -7,6 +7,10 @@ import (
 	"github.com/cryptounicorns/queues/producer"
 )
 
+const (
+	Name = "kafka"
+)
+
 type Kafka struct {
 	config Config
 	log    loggers.Logger

@@ -7,6 +7,10 @@ import (
 	"github.com/cryptounicorns/queues/producer"
 )
 
+const (
+	Name = "websocket"
+)
+
 type Websocket struct {
 	config Config
 	log    loggers.Logger

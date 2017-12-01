@@ -1,5 +1,5 @@
 hash: 34777643e9bbe546664de44d06cae276fe2f89b603d737da603e4feaaac5fe46
-updated: 2017-11-29T04:51:34.091668487Z
+updated: 2017-12-01T22:12:46.558132497Z
 imports:
 - name: github.com/bitly/go-nsq
   version: 8c1ff52dff6fd3ecc19c418649bc643b18e862fc
@@ -15,7 +15,7 @@ imports:
   - logger/logrus
   - logger/prefixwrapper
 - name: github.com/corpix/stores
-  version: d143bb7ecfa91dcbea6e422d2270c6bdd4d9d25b
+  version: 2ab9bd142cbf6580bda23627966e4374d5d3dddb
   subpackages:
   - errors
   - store/memory
@@ -64,7 +64,7 @@ imports:
 - name: github.com/rcrowley/go-metrics
   version: e181e095bae94582363434144c61a9653aff6e50
 - name: github.com/Shopify/sarama
-  version: a709f2d5ca2082723bb8007b9e45a0690c083b6a
+  version: 6a8d89d71d22bbdc14b6cb52778889a710be19a7
 - name: github.com/sirupsen/logrus
   version: 95cd2b9c79aa5e72ab0bc69b7ccc2be15bf850f6
 - name: golang.org/x/crypto
@@ -72,7 +72,7 @@ imports:
   subpackages:
   - ssh/terminal
 - name: golang.org/x/sys
-  version: 1006bb3484c92b19a5b6612452e038b554fadb9c
+  version: 8b4580aae2a0dd0c231a45d3ccb8434ff533b840
   subpackages:
   - unix
   - windows

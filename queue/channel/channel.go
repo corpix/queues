@@ -8,6 +8,10 @@ import (
 	"github.com/cryptounicorns/queues/producer"
 )
 
+const (
+	Name = "channel"
+)
+
 type Channel struct {
 	config  Config
 	log     loggers.Logger

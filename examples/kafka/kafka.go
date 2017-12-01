@@ -28,7 +28,7 @@ func main() {
 
 	q, err = queues.New(
 		queues.Config{
-			Type: queues.KafkaQueueType,
+			Type: kafka.Name,
 			Kafka: kafka.Config{
 				Addrs: []string{"127.0.0.1:9092"},
 				Topic: "kafka-example",

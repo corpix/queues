@@ -9,6 +9,10 @@ import (
 	"github.com/cryptounicorns/queues/producer"
 )
 
+const (
+	Name = "readwriter"
+)
+
 type ReadWriter struct {
 	config Config
 	reader io.Reader

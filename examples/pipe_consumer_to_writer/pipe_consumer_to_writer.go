@@ -20,7 +20,7 @@ const (
 
 var (
 	queue = queues.Config{
-		Type: queues.NsqQueueType,
+		Type: nsq.Name,
 		Nsq: nsq.Config{
 			Addr:  "127.0.0.1:4150",
 			Topic: "pipe",
