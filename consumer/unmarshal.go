@@ -33,7 +33,7 @@ func (c *Unmarshal) pump(consumerStream <-chan result.Result, stream chan result
 					r.Value,
 				)
 
-				if r.Err == nil {
+				if r.Err == nil && r.Value != nil {
 					rv = reflect.ValueOf(r.Value)
 					for rv.Kind() == reflect.Ptr {
 						rv = rv.Elem()
