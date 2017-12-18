@@ -17,7 +17,8 @@ type Unmarshal struct {
 
 func (c *Unmarshal) pump(consumerStream <-chan result.Result, stream chan result.Generic) {
 	var (
-		r result.Generic
+		r  result.Generic
+		rv reflect.Value
 	)
 
 	for cr := range consumerStream {
@@ -31,6 +32,14 @@ func (c *Unmarshal) pump(consumerStream <-chan result.Result, stream chan result
 					cr.Value,
 					r.Value,
 				)
+
+				if r.Err == nil {
+					rv = reflect.ValueOf(r.Value)
+					for rv.Kind() == reflect.Ptr {
+						rv = rv.Elem()
+					}
+					r.Value = rv.Interface()
+				}
 			} else {
 				r.Err = cr.Err
 			}
