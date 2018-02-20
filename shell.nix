@@ -1,14 +1,15 @@
 with import <nixpkgs> {};
 stdenv.mkDerivation {
-  name = "gluttony-shell";
+  name = "nix-cage-shell";
   buildInputs = [
     influxdb
-    ncurses
     go
     gocode
     go-bindata
     glide
     godef
-    bison
   ];
+  shellHook = ''
+    export GOPATH=~/projects
+  '';
 }
