@@ -2,7 +2,8 @@ with import <nixpkgs> {};
 stdenv.mkDerivation {
   name = "nix-cage-shell";
   buildInputs = [
-    influxdb
+    apacheKafka
+    nsq
     go
     gocode
     go-bindata
