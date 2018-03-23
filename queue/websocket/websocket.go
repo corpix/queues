@@ -17,18 +17,18 @@ type Websocket struct {
 }
 
 func (q *Websocket) Producer() (producer.Producer, error) {
-	return NewProducer(q.config, q.log)
+	return ProducerFromConfig(q.config, q.log)
 }
 
 func (q *Websocket) Consumer() (consumer.Consumer, error) {
-	return NewConsumer(q.config, q.log)
+	return ConsumerFromConfig(q.config, q.log)
 }
 
 func (q *Websocket) Close() error {
 	return nil
 }
 
-func New(c Config, l loggers.Logger) *Websocket {
+func FromConfig(c Config, l loggers.Logger) *Websocket {
 	return &Websocket{
 		config: c,
 		log:    l,

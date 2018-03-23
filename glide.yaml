@@ -13,10 +13,12 @@ import:
 - package: github.com/corpix/stores
   subpackages:
   - store/memory
+- package: github.com/cryptounicorns/websocket
 - package: github.com/davecgh/go-spew
   subpackages:
   - spew
 - package: github.com/gobwas/ws
   subpackages:
   - wsutil
+- package: github.com/gorilla/websocket
 - package: github.com/sirupsen/logrus

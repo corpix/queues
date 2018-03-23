@@ -25,8 +25,8 @@ func main() {
 		err error
 	)
 
-	q = websocket.New(
-		websocket.Config{Addr: "ws://127.0.0.1:9999"},
+	q = websocket.FromConfig(
+		websocket.Config{Addr: "ws://127.0.0.1:3333"},
 		log,
 	)
 	defer q.Close()

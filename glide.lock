@@ -1,5 +1,5 @@
-hash: 34777643e9bbe546664de44d06cae276fe2f89b603d737da603e4feaaac5fe46
-updated: 2017-12-01T22:12:46.558132497Z
+hash: ebcd35eb5273b1413054a88f3b3b5ac5d1bf71bb15ca5ff77a7d766152f42722
+updated: 2018-03-23T00:11:27.57971261Z
 imports:
 - name: github.com/bitly/go-nsq
   version: 8c1ff52dff6fd3ecc19c418649bc643b18e862fc
@@ -8,47 +8,49 @@ imports:
   subpackages:
   - closer
 - name: github.com/corpix/formats
-  version: 9a60a2b6efca3a5264cfbece220df11e8a2813f6
+  version: ca6b86539565956b3b8019f8a5ad9e04db4ec946
 - name: github.com/corpix/loggers
-  version: 69c4a7d3244f0509086d4080e8898376aeb95e09
+  version: 6428ebad5a5ef7a300d5dc269a99978de598aace
   subpackages:
   - logger/logrus
   - logger/prefixwrapper
 - name: github.com/corpix/stores
-  version: 2ab9bd142cbf6580bda23627966e4374d5d3dddb
+  version: 6e928963c62c49aad5f322e0af61550d7da921ea
   subpackages:
   - errors
   - store/memory
   - store/memoryttl
 - name: github.com/corpix/time
   version: 9adb218ff5319d3f3e3d5a44fe0cb5d4880762f4
+- name: github.com/cryptounicorns/websocket
+  version: 4eb66dfbf1f18ba58d48f6abb3e3007814d788da
 - name: github.com/davecgh/go-spew
-  version: ecdeabc65495df2dec95d7c4a4c3e021903035e5
+  version: 8991bc29aa16c548c550c7ff78260e27b9ab7c73
   subpackages:
   - spew
 - name: github.com/eapache/go-resiliency
-  version: b1fe83b5b03f624450823b751b662259ffc6af70
+  version: ef9aaa7ea8bd2448429af1a77cf41b2b3b34bdd6
   subpackages:
   - breaker
 - name: github.com/eapache/go-xerial-snappy
   version: bb955e01b9346ac19dc29eb16586c90ded99a98c
 - name: github.com/eapache/queue
-  version: 44cc805cf13205b55f69e14bcb69867d1ae92f98
-- name: github.com/fatih/structs
-  version: f5faa72e73092639913f5833b75e1ac1d6bc7a63
+  version: 093482f3f8ce946c05bcba64badd2c82369e084d
 - name: github.com/gobwas/httphead
-  version: 01c9b01b368a438f615030bbbd5e4f9e0023e15c
+  version: 2c6c146eadee0b69f856f87e3e9f1d0cd6aad2f5
 - name: github.com/gobwas/pool
-  version: 32dbaa12caca20fad12253c30591227e04f62cdd
+  version: e294a5482d9a8523f8e6b2744ea2185083c838af
   subpackages:
   - pbufio
   - pbytes
 - name: github.com/gobwas/ws
-  version: 915eed3240022c5265584c55032ef1b8c8f84168
+  version: c8595a6266aa8b97b14e7406cf059cd240b34100
   subpackages:
   - wsutil
 - name: github.com/golang/snappy
   version: 553a641470496b2327abcac10b36396bd98e45c9
+- name: github.com/gorilla/websocket
+  version: eb925808374e5ca90c83401a40d711dc08c0c0f6
 - name: github.com/naoina/go-stringutil
   version: 6b638e95a32d0c1131db0e7fe83775cbea4a0d0b
 - name: github.com/naoina/toml
@@ -56,26 +58,26 @@ imports:
   subpackages:
   - ast
 - name: github.com/pierrec/lz4
-  version: 08c27939df1bd95e881e2c2367a749964ad1fceb
+  version: ed8d4cc3b461464e69798080a0092bd028910298
 - name: github.com/pierrec/xxHash
   version: a0006b13c722f7f12368c00a3d3c2ae8a999a0c6
   subpackages:
   - xxHash32
 - name: github.com/rcrowley/go-metrics
-  version: e181e095bae94582363434144c61a9653aff6e50
+  version: 8732c616f52954686704c8645fe1a9d59e9df7c1
 - name: github.com/Shopify/sarama
-  version: 6a8d89d71d22bbdc14b6cb52778889a710be19a7
+  version: 5e8fd95863bd4a894fcd29225547d56967f189ad
 - name: github.com/sirupsen/logrus
-  version: 95cd2b9c79aa5e72ab0bc69b7ccc2be15bf850f6
+  version: 90150a8ed11b6ce285e77e8af2b0109559ce4777
 - name: golang.org/x/crypto
-  version: 94eea52f7b742c7cbe0b03b22f0c4c8631ece122
+  version: 88942b9c40a4c9d203b82b3731787b672d6e809b
   subpackages:
   - ssh/terminal
 - name: golang.org/x/sys
-  version: 8b4580aae2a0dd0c231a45d3ccb8434ff533b840
+  version: 91ee8cde435411ca3f1cd365e8f20131aed4d0a1
   subpackages:
   - unix
   - windows
 - name: gopkg.in/yaml.v2
-  version: 287cf08546ab5e7e37d55a84f7ed3fd1db036de5
+  version: 7f97868eec74b32b0982dd158a51a446d1da7eb5
 testImports: []

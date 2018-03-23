@@ -34,16 +34,16 @@ type Nsq struct {
 }
 
 func (q *Nsq) Producer() (producer.Producer, error) {
-	return NewProducer(q.config, q.log)
+	return ProducerFromConfig(q.config, q.log)
 }
 
 func (q *Nsq) Consumer() (consumer.Consumer, error) {
-	return NewConsumer(q.config, q.log)
+	return ConsumerFromConfig(q.config, q.log)
 }
 
 func (q *Nsq) Close() error { return nil }
 
-func New(c Config, l loggers.Logger) *Nsq {
+func FromConfig(c Config, l loggers.Logger) *Nsq {
 	if c.Nsq == nil {
 		c.Nsq = nsq.NewConfig()
 	}

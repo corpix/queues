@@ -26,26 +26,26 @@ type GenericConfig struct {
 	Queue  Config
 }
 
-// New creates new Queue from Config.
-func New(c Config, l loggers.Logger) (Queue, error) {
+// FromConfig creates new Queue from Config.
+func FromConfig(c Config, l loggers.Logger) (Queue, error) {
 	switch strings.ToLower(c.Type) {
 	case kafka.Name:
-		return kafka.New(
+		return kafka.FromConfig(
 			c.Kafka,
 			prefixedLogger(kafka.Name, l),
 		), nil
 	case nsq.Name:
-		return nsq.New(
+		return nsq.FromConfig(
 			c.Nsq,
 			prefixedLogger(nsq.Name, l),
 		), nil
 	case channel.Name:
-		return channel.New(
+		return channel.FromConfig(
 			c.Channel,
 			prefixedLogger(channel.Name, l),
 		), nil
 	case websocket.Name:
-		return websocket.New(
+		return websocket.FromConfig(
 			c.Websocket,
 			prefixedLogger(websocket.Name, l),
 		), nil

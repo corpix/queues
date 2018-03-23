@@ -44,7 +44,7 @@ func (c *Consumer) Close() error {
 	return nil
 }
 
-func NewConsumer(c Config, l loggers.Logger) (consumer.Consumer, error) {
+func ConsumerFromConfig(c Config, l loggers.Logger) (consumer.Consumer, error) {
 	var (
 		bufSize     = c.ConsumerBufferSize
 		concurrency = c.Concurrency

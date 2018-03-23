@@ -37,7 +37,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	q, err = queues.New(
+	q, err = queues.FromConfig(
 		queues.Config{
 			Type: channel.Name,
 			Channel: channel.Config{

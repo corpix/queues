@@ -44,7 +44,7 @@ func (p *Producer) Close() error {
 	return p.client.Close()
 }
 
-func NewProducer(c Config, l loggers.Logger) (*Producer, error) {
+func ProducerFromConfig(c Config, l loggers.Logger) (*Producer, error) {
 	var (
 		client        sarama.Client
 		kafkaProducer sarama.SyncProducer

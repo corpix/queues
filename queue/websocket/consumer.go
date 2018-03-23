@@ -1,18 +1,15 @@
 package websocket
 
 import (
-	"context"
-	"io"
-
 	"github.com/corpix/loggers"
-	"github.com/gobwas/ws"
-	"github.com/gobwas/ws/wsutil"
+	websocketHelpers "github.com/cryptounicorns/websocket"
+	"github.com/gorilla/websocket"
 
 	"github.com/cryptounicorns/queues/queue/readwriter"
 )
 
 type Consumer struct {
-	connection io.ReadWriteCloser
+	connection *websocket.Conn
 	*readwriter.Consumer
 }
 
@@ -29,26 +26,21 @@ func (c *Consumer) Close() error {
 	return c.Consumer.Close()
 }
 
-func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
+func ConsumerFromConfigWithDialer(d *websocket.Dialer, c Config, l loggers.Logger) (*Consumer, error) {
 	var (
-		r   io.ReadWriteCloser
-		rwc *readwriter.Consumer
-		err error
+		conn *websocket.Conn
+		rwp  *readwriter.Consumer
+		err  error
 	)
 
-	r, _, _, err = ws.DefaultDialer.Dial(
-		context.Background(),
-		c.Addr,
-	)
+	conn, _, err = d.Dial(c.Addr, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	rwc, err = readwriter.NewConsumer(
-		wsutil.NewReader(r, ws.StateClientSide),
-		readwriter.Config{
-			ConsumerBufferSize: c.ConsumerBufferSize,
-		},
+	rwp, err = readwriter.ConsumerFromConfig(
+		websocketHelpers.NewReader(conn),
+		readwriter.Config{ConsumerBufferSize: c.ConsumerBufferSize},
 		l,
 	)
 	if err != nil {
@@ -56,7 +48,11 @@ func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
 	}
 
 	return &Consumer{
-		connection: r,
-		Consumer:   rwc,
+		connection: conn,
+		Consumer:   rwp,
 	}, nil
+}
+
+func ConsumerFromConfig(c Config, l loggers.Logger) (*Consumer, error) {
+	return ConsumerFromConfigWithDialer(websocket.DefaultDialer, c, l)
 }

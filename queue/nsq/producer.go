@@ -27,7 +27,7 @@ func (p *Producer) Close() error {
 	return nil
 }
 
-func NewProducer(c Config, l loggers.Logger) (producer.Producer, error) {
+func ProducerFromConfig(c Config, l loggers.Logger) (producer.Producer, error) {
 	var (
 		log = prefixwrapper.New(
 			"NsqProducer: ",

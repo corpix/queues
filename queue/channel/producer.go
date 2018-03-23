@@ -19,8 +19,6 @@ func (p *Producer) Close() error {
 	return nil
 }
 
-func NewProducer(channel chan message.Message, c Config, l loggers.Logger) (*Producer, error) {
-	return &Producer{
-		channel: channel,
-	}, nil
+func ProducerFromConfig(channel chan message.Message, c Config, l loggers.Logger) (*Producer, error) {
+	return &Producer{channel: channel}, nil
 }

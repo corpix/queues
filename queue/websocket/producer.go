@@ -1,18 +1,15 @@
 package websocket
 
 import (
-	"context"
-	"io"
-
 	"github.com/corpix/loggers"
-	"github.com/gobwas/ws"
-	"github.com/gobwas/ws/wsutil"
+	websocketHelpers "github.com/cryptounicorns/websocket"
+	"github.com/gorilla/websocket"
 
 	"github.com/cryptounicorns/queues/queue/readwriter"
 )
 
 type Producer struct {
-	connection io.ReadWriteCloser
+	connection *websocket.Conn
 	*readwriter.Producer
 }
 
@@ -29,30 +26,21 @@ func (p *Producer) Close() error {
 	return p.Producer.Close()
 }
 
-func NewProducer(c Config, l loggers.Logger) (*Producer, error) {
+func ProducerFromConfigWithDialer(d *websocket.Dialer, c Config, l loggers.Logger) (*Producer, error) {
 	var (
-		r   io.ReadWriteCloser
-		rwp *readwriter.Producer
-		err error
+		conn *websocket.Conn
+		rwp  *readwriter.Producer
+		err  error
 	)
 
-	r, _, _, err = ws.DefaultDialer.Dial(
-		context.Background(),
-		c.Addr,
-	)
+	conn, _, err = d.Dial(c.Addr, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	rwp, err = readwriter.NewProducer(
-		wsutil.NewWriter(
-			r,
-			ws.StateClientSide,
-			ws.OpBinary,
-		),
-		readwriter.Config{
-			ConsumerBufferSize: c.ConsumerBufferSize,
-		},
+	rwp, err = readwriter.ProducerFromConfig(
+		websocketHelpers.NewWriter(conn),
+		readwriter.Config{ConsumerBufferSize: c.ConsumerBufferSize},
 		l,
 	)
 	if err != nil {
@@ -60,7 +48,11 @@ func NewProducer(c Config, l loggers.Logger) (*Producer, error) {
 	}
 
 	return &Producer{
-		connection: r,
+		connection: conn,
 		Producer:   rwp,
 	}, nil
+}
+
+func ProducerFromConfig(c Config, l loggers.Logger) (*Producer, error) {
+	return ProducerFromConfigWithDialer(websocket.DefaultDialer, c, l)
 }

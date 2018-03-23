@@ -26,7 +26,7 @@ func main() {
 		err            error
 	)
 
-	q, err = queues.New(
+	q, err = queues.FromConfig(
 		queues.Config{
 			Type: nsq.Name,
 			Nsq: nsq.Config{

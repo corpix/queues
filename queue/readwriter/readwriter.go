@@ -21,18 +21,18 @@ type ReadWriter struct {
 }
 
 func (q *ReadWriter) Producer() (producer.Producer, error) {
-	return NewProducer(q.writer, q.config, q.log)
+	return ProducerFromConfig(q.writer, q.config, q.log)
 }
 
 func (q *ReadWriter) Consumer() (consumer.Consumer, error) {
-	return NewConsumer(q.reader, q.config, q.log)
+	return ConsumerFromConfig(q.reader, q.config, q.log)
 }
 
 func (q *ReadWriter) Close() error {
 	return nil
 }
 
-func New(rw io.ReadWriter, c Config, l loggers.Logger) *ReadWriter {
+func FromConfig(rw io.ReadWriter, c Config, l loggers.Logger) *ReadWriter {
 	return &ReadWriter{
 		config: c,
 		reader: rw,

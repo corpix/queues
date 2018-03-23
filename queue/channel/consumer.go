@@ -38,7 +38,7 @@ func (c *Consumer) Close() error {
 	return nil
 }
 
-func NewConsumer(channel chan message.Message, c Config, l loggers.Logger) (*Consumer, error) {
+func ConsumerFromConfig(channel chan message.Message, c Config, l loggers.Logger) (*Consumer, error) {
 	var (
 		capacity = c.Capacity
 		consumer *Consumer

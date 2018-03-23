@@ -42,7 +42,7 @@ func main() {
 		err error
 	)
 
-	q = readwriter.New(
+	q = readwriter.FromConfig(
 		&Proxy{stream: make(chan []byte)},
 		readwriter.Config{},
 		log,

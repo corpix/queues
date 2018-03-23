@@ -25,8 +25,6 @@ func (p *Producer) Close() error {
 	return nil
 }
 
-func NewProducer(w io.Writer, c Config, l loggers.Logger) (*Producer, error) {
-	return &Producer{
-		writer: w,
-	}, nil
+func ProducerFromConfig(w io.Writer, c Config, l loggers.Logger) (*Producer, error) {
+	return &Producer{writer: w}, nil
 }

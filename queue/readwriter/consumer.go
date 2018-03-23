@@ -56,7 +56,7 @@ func (c *Consumer) Close() error {
 	return nil
 }
 
-func NewConsumer(r io.Reader, c Config, l loggers.Logger) (*Consumer, error) {
+func ConsumerFromConfig(r io.Reader, c Config, l loggers.Logger) (*Consumer, error) {
 	var (
 		bufSize  = c.ConsumerBufferSize
 		consumer *Consumer

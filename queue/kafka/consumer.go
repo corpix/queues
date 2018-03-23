@@ -65,7 +65,7 @@ func (c *Consumer) Close() error {
 	return c.client.Close()
 }
 
-func NewConsumer(c Config, l loggers.Logger) (*Consumer, error) {
+func ConsumerFromConfig(c Config, l loggers.Logger) (*Consumer, error) {
 	var (
 		config                 = c
 		bufSize                = config.ConsumerBufferSize
