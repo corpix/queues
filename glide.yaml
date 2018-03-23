@@ -2,23 +2,11 @@ package: github.com/cryptounicorns/queues
 import:
 - package: github.com/Shopify/sarama
 - package: github.com/bitly/go-nsq
-- package: github.com/corpix/effects
-  subpackages:
-  - closer
 - package: github.com/corpix/formats
 - package: github.com/corpix/loggers
   subpackages:
   - logger/logrus
   - logger/prefixwrapper
-- package: github.com/corpix/stores
-  subpackages:
-  - store/memory
 - package: github.com/cryptounicorns/websocket
-- package: github.com/davecgh/go-spew
-  subpackages:
-  - spew
-- package: github.com/gobwas/ws
-  subpackages:
-  - wsutil
 - package: github.com/gorilla/websocket
 - package: github.com/sirupsen/logrus

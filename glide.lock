@@ -1,12 +1,8 @@
-hash: ebcd35eb5273b1413054a88f3b3b5ac5d1bf71bb15ca5ff77a7d766152f42722
-updated: 2018-03-23T00:11:27.57971261Z
+hash: f530361bc448ed56f4d4eac54c10f5fc2d4072465318721adee8bc5c58ffffdc
+updated: 2018-03-23T22:15:58.34185704Z
 imports:
 - name: github.com/bitly/go-nsq
   version: 8c1ff52dff6fd3ecc19c418649bc643b18e862fc
-- name: github.com/corpix/effects
-  version: 0d818ebf2da05939c8247de5b84f44a2428c032e
-  subpackages:
-  - closer
 - name: github.com/corpix/formats
   version: ca6b86539565956b3b8019f8a5ad9e04db4ec946
 - name: github.com/corpix/loggers
@@ -14,16 +10,8 @@ imports:
   subpackages:
   - logger/logrus
   - logger/prefixwrapper
-- name: github.com/corpix/stores
-  version: 6e928963c62c49aad5f322e0af61550d7da921ea
-  subpackages:
-  - errors
-  - store/memory
-  - store/memoryttl
-- name: github.com/corpix/time
-  version: 9adb218ff5319d3f3e3d5a44fe0cb5d4880762f4
 - name: github.com/cryptounicorns/websocket
-  version: 4eb66dfbf1f18ba58d48f6abb3e3007814d788da
+  version: 47bdc635453541b7b5f44e17e16a61e97f885e88
 - name: github.com/davecgh/go-spew
   version: 8991bc29aa16c548c550c7ff78260e27b9ab7c73
   subpackages:
@@ -36,17 +24,6 @@ imports:
   version: bb955e01b9346ac19dc29eb16586c90ded99a98c
 - name: github.com/eapache/queue
   version: 093482f3f8ce946c05bcba64badd2c82369e084d
-- name: github.com/gobwas/httphead
-  version: 2c6c146eadee0b69f856f87e3e9f1d0cd6aad2f5
-- name: github.com/gobwas/pool
-  version: e294a5482d9a8523f8e6b2744ea2185083c838af
-  subpackages:
-  - pbufio
-  - pbytes
-- name: github.com/gobwas/ws
-  version: c8595a6266aa8b97b14e7406cf059cd240b34100
-  subpackages:
-  - wsutil
 - name: github.com/golang/snappy
   version: 553a641470496b2327abcac10b36396bd98e45c9
 - name: github.com/gorilla/websocket
